@@ -1,0 +1,341 @@
+<?php
+return [
+    'dashboard'  => 'لوحة التحكم',
+    'logout'     => 'تسجيل الخروج',
+    'profile'    => 'حسابي',
+    'title_p'    => 'الدفع مع ..',
+    'save'       => 'حفظ',
+    'create'     => 'إنشاء',
+    'update'     => 'تحديث',
+    'cancel'     => 'إلغاء',
+    'restore'    => 'إعادة',
+    'delete'     => 'حذف نهائي',
+    'select'     => 'تحديد',
+    'change'     => 'تغيير',
+    'remove'     => 'حذف',
+    'soft_delete'=> 'حذف مؤقت',
+    'update'     => 'تحديث',
+    'refreshDataTable' => 'تحديث',
+    'rout_start' => [
+        'dashboard' => 'لوحة التحكم',
+        'users' => [
+            'label' => 'المستخدمين',
+            'types' => [
+                'ALL'       => 'الكل',
+                'ROOT'      => 'جذر',
+                'ADMINS'    => 'مشرفين',
+                'EMPLOYEES' => 'موظفين',
+                'AGENCIES'  => 'الوكلاء',
+                'CUSTOMERS' => 'عملاء',
+            ],
+        ],
+        'agencies' => [
+            'label' => 'الوكالات',
+            'agencies_types' => [
+                'master_agent'  => 'وكيل رئيسي',
+                'sub_agent'     => 'وكيل فرعي',
+            ]
+        ],
+        'categories' => [
+            'label' => 'الفئات',
+        ],
+        'units' => [
+            'label' => 'الوحدات',
+        ],
+    ],
+    'users' => [
+        'table' => [
+            'id'                 => '#',
+            'name'               => 'الأسم',
+            'type'               => 'النوع',
+            'username'           => 'اسم المستخدم',
+            'phone_number'       => 'رقم الهاتف',
+            'email'              => 'البرايد الإلكتروني',
+            'verification_code'  => 'كود التفعيل',
+            'status'             => 'الخالة',
+            'registration_type'  => 'طريقة التسجيل',
+            'actions'            => 'العمليات'
+        ],
+        'ALL'             => 'كل المستخدمين',
+        'ROOT'            => 'جذر',
+        'ADMIN'           => 'مشرفين',
+        'EMPLOYEE'        => 'موظفين',
+        'MASTER_AGENT'    => 'الوكيلاء الرئيسيين',
+        'SUB_AGENT'       => 'الوكلاء الفرعيين',
+        'CUSTOMER'        => 'عملاء',
+        'create'          => 'إنشاء مستخدم',
+        'new'             => 'إنشاء :type جديد',
+        'update'          => 'تحديث بيانات ( :name )',
+        'fields' => [
+            'name' => [
+                'label' => 'الأسم',
+                'placeholder' => 'ادخل الأسم',
+                'help' => 'الأسم',
+            ],
+            'username' => [
+                'label' => 'الأسم الكامل',
+                'placeholder' => 'ادخل الأسم الكامل',
+                'help' => 'الأسم الكامل',
+            ],
+            'email' => [
+                'label' => 'البريد الإلكتروني',
+                'placeholder' => 'ادخل البريد الإلكتروني',
+                'help' => 'البريد الإلكتروني',
+            ],
+            'password' => [
+                'label' => 'كلمة المرور',
+                'placeholder' => 'ادخل كلمة المرور',
+                'help' => 'كلمة المرور',
+            ],
+            'image' => [
+                'label' => 'إختيار صورة',
+                'placeholder' => 'إختيار صورة',
+                'help' => 'إختيار صورة',
+            ],
+            'phone_number' => [
+                'label' => 'رقم الهاتف',
+                'placeholder' => 'ادخل رقم الهاتف',
+                'help' => 'رقم الهاتف',
+            ],
+            'confirm_password' => [
+                'label' => 'تأكيد كلمة المرور',
+                'placeholder' => 'تأكيد كلمة المرور',
+                'help' => 'تأكيد كلمة المرور',
+            ],
+        ],
+    ],
+    'lang_data_table' => 'https://cdn.datatables.net/plug-ins/1.10.16/i18n/Arabic.json',
+    'msg' => [
+        'error_message' => [
+            'title'        => 'خطأ!!',
+            'description'  => 'هناك خطأ ما!!',
+        ],
+        'validation_error' => [
+            'title'        => 'خطأ!!',
+            'description'  => 'خطئ في التحقق',
+        ],
+        'success_message' => [
+            'title'        => 'نجاح',
+            'description'  => 'تمت العملية بنجاح',
+        ],
+    ],
+    'agencies' => [
+        'table' => [
+            'id'                 => '#',
+            'name'               => 'الأسم',
+            'type'               => 'النوع',
+            'username'           => 'اسم المستخدم',
+            'phone_number'       => 'رقم الهاتف',
+            'email'              => 'البرايد الإلكتروني',
+            'status'             => 'الخالة',
+            'actions'            => 'العمليات'
+        ],
+        'MASTER_AGENT' => 'الوكيلاء الرئيسيين',
+        'SUB_AGENT'    => 'الوكلاء الفرعيين',
+        'create'     => 'إنشاء وكيل',
+        'new'        => 'إنشاء :agencies_type جديد',
+        'update'     => 'تحديث بيانات ( :name )',
+        'fields' => [
+            'title' => [
+                'label' => 'العنوان',
+                'placeholder' => 'ادخل العنوان',
+                'help' => 'العنوان',
+            ],
+            'description' => [
+                'label' => 'الوصف',
+                'placeholder' => 'ادخل الوصف',
+                'help' => 'الوصف',
+            ],
+            'user_id' => [
+                'label' => 'تحديد المستخدم',
+                'placeholder' => 'تحديد المستخدم',
+                'help' => 'تحديد المستخدم',
+            ],
+            'master_agent_id' => [
+                'label' => 'تحديد الوكيل الوكيل الرئيسي',
+                'placeholder' => 'تحديد الوكيل الوكيل الرئيسي',
+                'help' => 'تحديد الوكيل الوكيل الرئيسي',
+            ],
+            'first_name' => [
+                'label' => 'الأسم الاول',
+                'placeholder' => 'ادخل الأسم الاول',
+                'help' => 'الأسم الاول',
+            ],
+            'last_name' => [
+                'label' => 'الأسم الأخير',
+                'placeholder' => 'ادخل الأسم الأخير',
+                'help' => 'الأسم الأخير',
+            ],
+            'email' => [
+                'label' => 'البريد الإلكتروني',
+                'placeholder' => 'ادخل البريد الإلكتروني',
+                'help' => 'البريد الإلكتروني',
+            ],
+            'desc_address' => [
+                'label' => 'وصف العنوان',
+                'placeholder' => 'ادخل وصف العنوان',
+                'help' => 'وصف العنوان',
+            ],
+            'latitude' => [
+                'label' => 'Latitude',
+                'placeholder' => 'Latitude',
+                'help' => 'Latitude',
+            ],
+            'longitude' => [
+                'label' => 'Longitude',
+                'placeholder' => 'Longitude',
+                'help' => 'Longitude',
+            ],
+            'iban' => [
+                'label' => 'Iban',
+                'placeholder' => 'ادخل Iban',
+                'help' => 'Iban',
+            ],
+            'iban_name' => [
+                'label' => 'Iban Name',
+                'placeholder' => 'ادخل Iban Name',
+                'help' => 'Iban Name',
+            ],
+            'iban_type' => [
+                'label' => 'Iban Type',
+                'placeholder' => 'Iban Type',
+                'help' => 'Iban Type',
+            ],
+            'phone_number' => [
+                'label' => 'رقم الهاتف',
+                'placeholder' => 'ادخل رقم الهاتف',
+                'help' => 'رقم الهاتف',
+            ],
+            'status' => [
+                'label' => 'الحالة',
+                'placeholder' => 'الحالة',
+                'help' => 'الحالة',
+                '0' => 'غير مفعل',
+                '1' => 'مفعل',
+                '2' => 'متوقف',
+            ],
+        ],
+    ],
+    'countries' => [
+        'label' => 'البلدان',
+        'placeholder' => 'اختيار البلدان',
+        'help' => 'البلدان',
+    ],
+    'cities' => [
+        'label' => 'المدن',
+        'placeholder' => 'اختيار المدن',
+        'help' => 'المدن',
+    ],
+    'municipalities' => [
+        'label' => 'البلديات',
+        'placeholder' => 'اختيار البلديات',
+        'help' => 'البلديات',
+    ],
+    'neighborhoodes' => [
+        'label' => 'الأحياء',
+        'placeholder' => 'اختيار الأحياء',
+        'help' => 'الأحياء',
+    ],
+    'categories' => [
+        'table' => [
+            'id'                  => '#',
+            'name'                => 'الإسم',
+            'code'                => 'كود الفئة',
+            'from_to'             => 'من الي قيمة الفئة',
+            'price'               => 'سعر الفئة',
+            'status'              => 'حالة الفئة',
+            'actions'             => 'العمليات',
+        ],
+        'label'        => 'الفئات',
+        'create'       => 'إنشاء فئة',
+        'new'          => 'إنشاء فئة جديدة',
+        'update'       => 'تحديث بيانات ( :name )',
+        'genrate_code' => 'توليد كود الفئة',
+        'from_to' => 'من :from الى :to',
+        'fields' => [
+            'name' => [
+                'label' => 'الإسم',
+                'placeholder' => 'ادخال الإسم',
+                'help' => 'الإسم',
+            ],
+            'code' => [
+                'label' => 'كود الفئة',
+                'placeholder' => 'انقر لإنشاء كود',
+                'help' => 'كود',
+            ],
+            'from' => [
+                'label' => 'من',
+                'placeholder' => 'يبدأ الحساب من',
+                'help' => 'من',
+            ],
+            'to' => [
+                'label' => 'الى',
+                'placeholder' => 'ينتهي الحساب الى',
+                'help' => 'الى',
+            ],
+            'price' => [
+                'label' => 'السعر',
+                'placeholder' => 'ادخال السعر',
+                'help' => 'السعر',
+            ],
+            'status' => [
+                'label' => 'اختيار الحالة',
+                'placeholder' => 'اختيار الحالة',
+                'help' => 'اختيار الحالة',
+                'NOT_ACTIVE' => 'غير نشظ',
+                'ACTIVE'     => 'نشظ',
+            ],
+        ],
+    ],
+    'units' => [
+        'table' => [
+            'id'                  => '#',
+            'name'                => 'الإسم',
+            'code'                => 'كود الوحدة',
+            'price'               => 'سعر الوحدة',
+            'status'              => 'حالة الوحدة',
+            'actions'             => 'العمليات',
+        ],
+        'label'        => 'الوحدات',
+        'create'       => 'إنشاء وحدة',
+        'new'          => 'إنشاء وحدة جديدة',
+        'update'       => 'تحديث بيانات ( :name )',
+        'genrate_code' => 'توليد كود وحدة',
+        'fields' => [
+            'user_id' => [
+                'label' => 'تحديد المستخدم لربط الوحدة معه',
+                'placeholder' => 'تحديد المستخدم لربط الوحدة معه',
+                'help' => 'تحديد المستخدم لربط الوحدة معه',
+            ],
+            'category_id' => [
+                'label' => 'تحديد الفئة لربط الوحدة معه',
+                'placeholder' => 'تحديد الفئة لربط الوحدة معه',
+                'help' => 'تحديد الفئة لربط الوحدة معه',
+            ],
+            'name' => [
+                'label' => 'الإسم',
+                'placeholder' => 'ادخال الإسم',
+                'help' => 'الإسم',
+            ],
+            'code' => [
+                'label' => 'كود وحدة',
+                'placeholder' => 'انقر لإنشاء كود',
+                'help' => 'كود',
+            ],
+            'price' => [
+                'label' => 'السعر',
+                'placeholder' => 'ادخال السعر',
+                'help' => 'السعر',
+            ],
+            'status' => [
+                'label' => 'اختيار الحالة',
+                'placeholder' => 'اختيار الحالة',
+                'help' => 'اختيار الحالة',
+                'NOT_ACTIVE' => 'غير نشظ',
+                'ACTIVE'     => 'نشظ',
+            ],
+        ],
+        'create_by_category' => 'إنشاء وحدة عن طريق تحديد الفئة',
+        'create_new_unit' => 'إنشاء وحدة جديدة',
+    ],
+];
