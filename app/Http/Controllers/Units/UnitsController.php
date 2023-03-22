@@ -35,7 +35,7 @@ class UnitsController extends Controller
     }
     public function getCategory(Request $request)
     {
-        if(!in_array(auth()->user()->type, ["ROOT", "ADMIN"]))
+        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -49,7 +49,7 @@ class UnitsController extends Controller
     }
     public function index(Request $request)
     {
-        if(!in_array(auth()->user()->type, ["ROOT", "ADMIN"]))
+        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -144,7 +144,7 @@ class UnitsController extends Controller
     }
     public function create(Request $request)
     {
-        if(!in_array(auth()->user()->type, ["ROOT", "ADMIN"]))
+        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -159,7 +159,7 @@ class UnitsController extends Controller
     }
     public function store(Request $request)
     {
-        if(!in_array(auth()->user()->type, ["ROOT", "ADMIN"]))
+        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -226,7 +226,7 @@ class UnitsController extends Controller
     }
     public function show(Request $request, $id)
     {
-        if(!in_array(auth()->user()->type, ["ROOT", "ADMIN"]))
+        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -242,7 +242,7 @@ class UnitsController extends Controller
     }
     public function update(Request $request)
     {
-        if(!in_array(auth()->user()->type, ["ROOT", "ADMIN"]))
+        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -310,7 +310,7 @@ class UnitsController extends Controller
     }
     public function softDelete(Request $request, $id)
     {
-        if(!in_array(auth()->user()->type, ["ROOT", "ADMIN"]))
+        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -342,7 +342,7 @@ class UnitsController extends Controller
     }
     public function delete(Request $request, $id)
     {
-        if(!in_array(auth()->user()->type, ["ROOT", "ADMIN"]))
+        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -374,7 +374,7 @@ class UnitsController extends Controller
     }
     public function restore(Request $request, $id)
     {
-        if(!in_array(auth()->user()->type, ["ROOT", "ADMIN"]))
+        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,

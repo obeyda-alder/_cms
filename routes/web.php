@@ -19,6 +19,13 @@ Route::get('/', function () {
 });
 
 
+Route::group(['prefix' => 'addresses', 'namespace' => 'Addresses'], function(){
+    Route::get('countries', 'AddressController@getCountries')->name('addresses::countries');
+    Route::get('cities', 'AddressController@getCities')->name('addresses::cities');
+    Route::get('municipalites', 'AddressController@getMunicipalites')->name('addresses::municipalites');
+    Route::get('neighborhoodes', 'AddressController@getNeighborhoodes')->name('addresses::neighborhoodes');
+});
+
 Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => 'locale'], function() {
 
     Route::group(['middleware' => 'web', 'namespace' => 'Auth'], function(){
@@ -39,18 +46,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => 'loc
             Route::post('soft_delete/{id}', 'UsersController@softDelete')->name('users::soft_delete');
             Route::post('delete/{id}', 'UsersController@delete')->name('users::delete');
             Route::post('restore/{id}', 'UsersController@restore')->name('users::restore');
-        });
-
-        Route::group(['prefix' => 'agencies', 'namespace' => 'Agencies'], function(){
-            Route::get('a/{agencies_type}', 'AgenciesController@index')->name('agencies');
-            Route::get('agencies_data', 'AgenciesController@data')->name('agencies::data');
-            Route::get('create/{agencies_type}', 'AgenciesController@create')->name('agencies::create');
-            Route::post('store/{agencies_type}', 'AgenciesController@store')->name('agencies::store');
-            Route::get('edit/{id}/{agencies_type}', 'AgenciesController@show')->name('agencies::edit');
-            Route::post('e/store', 'AgenciesController@update')->name('agencies::e-store');
-            Route::post('soft_delete/{id}', 'AgenciesController@softDelete')->name('agencies::soft_delete');
-            Route::post('delete/{id}', 'AgenciesController@delete')->name('agencies::delete');
-            Route::post('restore/{id}', 'AgenciesController@restore')->name('agencies::restore');
         });
 
         Route::group(['prefix' => 'categories', 'namespace' => 'Categories'], function(){

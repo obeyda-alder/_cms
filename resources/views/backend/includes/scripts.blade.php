@@ -92,18 +92,15 @@
                 }
                 if(data.redirect_url)
                 {
-                    console.log(data.redirect_url);
                     window.location = data.redirect_url;
                 }
-                show_toastr(response_type, response_title, response_description)
-            },
-            error: function (error) {
-                if(!error.responseJSON.success)
+
+                if(!data.success)
                 {
                     $('.form-control-feedback').remove();
-                        if(typeof error.responseJSON.errors !== 'undefined')
+                        if(typeof data.errors !== 'undefined')
                         {
-                            let $data = error.responseJSON.errors;
+                            let $data = data.errors;
                             var error_text = '';
                             Object.keys($data).forEach((key) => {
                                 error_text = `<div class="form-control-feedback"> ${$data[key][0]}</div>`;
@@ -112,9 +109,26 @@
                         }
                 }
                 // $(`.form-control-feedback`).fadeOut(6000);
-                response_type           = error.responseJSON.type;
-                response_title          = error.responseJSON.title;
-                response_description    = error.responseJSON.description;
+                show_toastr(response_type, response_title, response_description)
+            },
+            error: function (error) {
+                if(!error.success)
+                {
+                    $('.form-control-feedback').remove();
+                        if(typeof error.errors !== 'undefined')
+                        {
+                            let $data = error.errors;
+                            var error_text = '';
+                            Object.keys($data).forEach((key) => {
+                                error_text = `<div class="form-control-feedback"> ${$data[key][0]}</div>`;
+                                $(`input[name=${key}]`).after( error_text );
+                            })
+                        }
+                }
+                // $(`.form-control-feedback`).fadeOut(6000);
+                response_type           = error.type;
+                response_title          = error.title;
+                response_description    = error.description;
                 show_toastr(response_type, response_title, response_description)
             },
         });

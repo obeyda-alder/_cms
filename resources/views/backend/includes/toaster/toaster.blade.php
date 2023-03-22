@@ -1,7 +1,6 @@
 @push('scripts')
 <script>
     function show_toastr(type = 'success', title, description){
-        console.log(type, title, description);
         toastr.options = {
             "closeButton": true,
             "debug": false,

@@ -5,15 +5,15 @@
 
 @section('cms-component')
     <div class="cms-buttons-">
-        <div class="page-title">{{ __('base.users.update', [ 'name' => strtoupper($user->name) ]) }}</div>  {{-- __('base.users.'.strtoupper($user->type)) --}}
+        <div class="page-title">{{ __('base.users.update', [ 'name' => strtoupper( $user['name']) ]) }}</div>  {{-- __('base.users.'.strtoupper( $user['type)) --}}
     </div>
 @endsection
 @section('content')
 
 <form class="forms-sample" method="POST" onsubmit="OnFormSubmit(event)" action="{{ route('users::e-store') }}" enctype="multipart/form-data">
     @csrf
-    <input type="hidden" name="user_id" value="{{ $user->id }}">
-    <input type="hidden" name="type" value="{{ $user->type }}">
+    <input type="hidden" name="user_id" value="{{  $user['id'] }}">
+    <input type="hidden" name="type" value="{{  $user['type'] }}">
     <div class="row">
         <div class="col-md-6">
             @include('backend.includes.inputs.text', [
@@ -23,7 +23,7 @@
                     'label'       => __('base.users.fields.name.label'),
                     'placeholder' => __('base.users.fields.name.placeholder'),
                     'help'        => __('base.users.fields.name.help'),
-                    'value'       => old('name', $user->name)
+                    'value'       => old('name',  $user['name'])
                 ]
             ])
 
@@ -34,7 +34,7 @@
                     'label'       => __('base.users.fields.username.label'),
                     'placeholder' => __('base.users.fields.username.placeholder'),
                     'help'        => __('base.users.fields.username.help'),
-                    'value'       => old('username', $user->username)
+                    'value'       => old('username',  $user['username'])
                 ]
             ])
             @include('backend.includes.inputs.text', [
@@ -44,7 +44,7 @@
                     'label'       => __('base.users.fields.email.label'),
                     'placeholder' => __('base.users.fields.email.placeholder'),
                     'help'        => __('base.users.fields.email.help'),
-                    'value'       => old('email', $user->email)
+                    'value'       => old('email',  $user['email'])
                 ]
             ])
 
@@ -53,7 +53,7 @@
                     @lang('base.users.phone_number.label')
                 </label>
                 <div class="input-group">
-                    <input id="search_for_user_input" dir="ltr" type="number" name="phone_number" class="form-control text-left" placeholder="@lang('base.users.phone_number.placeholder')" value="{{ $user->phone_number }}">
+                    <input id="search_for_user_input" dir="ltr" type="number" name="phone_number" class="form-control text-left" placeholder="@lang('base.users.phone_number.placeholder')" value="{{  $user['phone_number'] }}">
                     <div class="input-group-prepend w-25" id="phone_country_code_input_group">
                         <select class="btn-group bootstrap-select input-group-btn form-control m-bootstrap-select m_selectpicker" name="phone_country_code" id="phone_country_code"
                         data-live-search="true"
@@ -123,7 +123,7 @@
                     'placeholder' => __('base.countries.placeholder'),
                     'help'        => null,
                     'data'        => $countries,
-                    'selected'    => old('country_id', $user->country_id ),
+                    'selected'    => old('country_id',  $user['country_id'] ),
                     'value'       => function($data, $key, $value){ return $value->id; },
                     'text'        => function($data, $key, $value){ return $value->{'name_'.app()->getLocale()  }; },
                     'select'      => function($data, $selected, $key, $value){ return $selected == $value->id; },
@@ -138,7 +138,7 @@
                     'placeholder' => __('base.cities.placeholder'),
                     'help'        => null,
                     'data'        => [],
-                    'selected'    => old('city_id', $user->city_id ),
+                    'selected'    => old('city_id',  $user['city_id'] ),
                     'value'       => function($data, $key, $value){ return $value->id; },
                     'text'        => function($data, $key, $value){ return $value->{'name_'.app()->getLocale()  }; },
                     'select'      => function($data, $selected, $key, $value){ return $selected == $value->id; },
@@ -153,7 +153,7 @@
                     'placeholder' => __('base.municipalities.placeholder'),
                     'help'        => null,
                     'data'        => [],
-                    'selected'    => old('municipality_id', $user->municipality_id ),
+                    'selected'    => old('municipality_id',  $user['municipality_id'] ),
                     'value'       => function($data, $key, $value){ return $value->id; },
                     'text'        => function($data, $key, $value){ return $value->{'name_'.app()->getLocale()  }; },
                     'select'      => function($data, $selected, $key, $value){ return $selected == $value->id; },
@@ -168,7 +168,7 @@
                     'placeholder' => __('base.neighborhoodes.placeholder'),
                     'help'        => null,
                     'data'        => [],
-                    'selected'    => old('neighborhood_id', $user->neighborhood_id ),
+                    'selected'    => old('neighborhood_id',  $user['neighborhood_id'] ),
                     'value'       => function($data, $key, $value){ return $value->id; },
                     'text'        => function($data, $key, $value){ return $value->{'name_'.app()->getLocale() }; },
                     'select'      => function($data, $selected, $key, $value){ return $selected == $value->id; },
@@ -214,7 +214,7 @@
     function getCitiy(country_id) {
         $.ajax({
             method     : 'GET',
-            url        : "{!! route('addresses::getCitiy') !!}",
+            url        : "{!! route('addresses::cities') !!}",
             data       : {
                 name        : 'city_id',
                 label       : '{{ __('base.cities.label') }}',
@@ -233,7 +233,7 @@
     function getMunicipalites(city_id) {
         $.ajax({
             method     : 'GET',
-            url        : "{!! route('addresses::getMunicipality') !!}",
+            url        : "{!! route('addresses::municipalites') !!}",
             data       : {
                 name        : 'city_id',
                 label       : '{{ __('base.municipalites.label') }}',
@@ -251,7 +251,7 @@
     function getNeighborhoodes(municipality_id) {
         $.ajax({
             method     : 'GET',
-            url        : "{!! route('addresses::getNeighborhood') !!}",
+            url        : "{!! route('addresses::neighborhoodes') !!}",
             data       : {
                 name             : 'city_id',
                 label            : '{{ __('base.neighborhoodes.label') }}',

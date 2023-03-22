@@ -45,7 +45,7 @@ class RegistrationController extends Controller
     public function login(Request $request)
     {
         $data = ['email' => $request->email,'password' => $request->password];
-        $conn = $this->loginRequest('auth/login', $data);
+        $conn = $this->post(config('custom.api_routes.login'), $data);
         if($conn && isset($conn['success']) && $conn['success']){
             session([
                 'login'              => 'logged_in_successfully',

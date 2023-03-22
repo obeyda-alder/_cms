@@ -65,13 +65,13 @@
                         width="400">
                             @foreach($countries as $country)
                             {{--  <img src='{!! $country->flag !!}' width='20' height='16'> --}}
-                            <option value="{{ $country->code }}" data-content="
+                            <option value="{{ $country['code'] }}" data-content="
                                 <div>
-                                    <span class='mx-2' dir='ltr'>{{ $country->code }}</span> ({{ $country->{'name_' .app()->getLocale()} }})
+                                    <span class='mx-2' dir='ltr'>{{ $country['code'] }}</span> ({{ $country['name_'.app()->getLocale()] }})
                                 </div>"
-                                {!! $country->code == old('phone_country_code', '+905') ? 'selected' : '' !!}>
+                                {!! $country['code'] == old('phone_country_code', '+905') ? 'selected' : '' !!}>
                                 <div>
-                                    <span class='mx-2' dir='ltr'>{{ $country->code }}</span> ({{ $country->{'name_' .app()->getLocale()} }})
+                                    <span class='mx-2' dir='ltr'>{{ $country['code'] }}</span> ({{ $country['name_'.app()->getLocale()] }})
                                 </div>
                             </option>
                             @endforeach
@@ -127,9 +127,9 @@
                     'help'        => null,
                     'data'        => $countries,
                     'selected'    => old('country_id'),
-                    'value'       => function($data, $key, $value){ return $value->id; },
-                    'text'        => function($data, $key, $value){ return $value->{'name_'.app()->getLocale()  }; },
-                    'select'      => function($data, $selected, $key, $value){ return $selected == $value->id; },
+                    'value'       => function($data, $key, $value){ return $value['id']; },
+                    'text'        => function($data, $key, $value){ return $value['name_'.app()->getLocale()]; },
+                    'select'      => function($data, $selected, $key, $value){ return $selected == $value['id']; },
                 ]
             ])
             @include('backend.includes.inputs.select', [
@@ -142,9 +142,9 @@
                     'help'        => null,
                     'data'        => [],
                     'selected'    => old('city_id'),
-                    'value'       => function($data, $key, $value){ return $value->id; },
-                    'text'        => function($data, $key, $value){ return $value->{'name_'.app()->getLocale()  }; },
-                    'select'      => function($data, $selected, $key, $value){ return $selected == $value->id; },
+                    'value'       => function($data, $key, $value){ return $value['id']; },
+                    'text'        => function($data, $key, $value){ return $value['name_'.app()->getLocale()]; },
+                    'select'      => function($data, $selected, $key, $value){ return $selected == $value['id']; },
                 ]
             ])
             @include('backend.includes.inputs.select', [
@@ -157,9 +157,9 @@
                     'help'        => null,
                     'data'        => [],
                     'selected'    => old('municipality_id'),
-                    'value'       => function($data, $key, $value){ return $value->id; },
-                    'text'        => function($data, $key, $value){ return $value->{'name_'.app()->getLocale()  }; },
-                    'select'      => function($data, $selected, $key, $value){ return $selected == $value->id; },
+                    'value'       => function($data, $key, $value){ return $value['id']; },
+                    'text'        => function($data, $key, $value){ return $value['name_'.app()->getLocale()]; },
+                    'select'      => function($data, $selected, $key, $value){ return $selected == $value['id']; },
                 ]
             ])
             @include('backend.includes.inputs.select', [
@@ -172,9 +172,9 @@
                     'help'        => null,
                     'data'        => [],
                     'selected'    => old('neighborhood_id'),
-                    'value'       => function($data, $key, $value){ return $value->id; },
-                    'text'        => function($data, $key, $value){ return $value->{'name_'.app()->getLocale() }; },
-                    'select'      => function($data, $selected, $key, $value){ return $selected == $value->id; },
+                    'value'       => function($data, $key, $value){ return $value['id']; },
+                    'text'        => function($data, $key, $value){ return $value['name_'.app()->getLocale()]; },
+                    'select'      => function($data, $selected, $key, $value){ return $selected == $value['id']; },
                 ]
             ])
         </div>
@@ -185,7 +185,7 @@
                         'name'        => 'image',
                         'label'       => __('base.users.fields.image.label'),
                         'placeholder' => null,
-                        'default'     => $defaultImage,
+                        'default'     => $default,
                         'value'       => null,
                         'select_label'=> __('base.select'),
                         'change_label'=> __('base.change'),
@@ -216,7 +216,7 @@
     function getCitiy(country_id) {
         $.ajax({
             method     : 'GET',
-            url        : "{!! route('addresses::getCitiy') !!}",
+            url        : "{!! route('addresses::cities') !!}",
             data       : {
                 name        : 'city_id',
                 label       : '{{ __('base.cities.label') }}',
@@ -231,11 +231,10 @@
             }
         });
     }
-
     function getMunicipalites(city_id) {
         $.ajax({
             method     : 'GET',
-            url        : "{!! route('addresses::getMunicipality') !!}",
+            url        : "{!! route('addresses::municipalites') !!}",
             data       : {
                 name        : 'city_id',
                 label       : '{{ __('base.municipalites.label') }}',
@@ -253,7 +252,7 @@
     function getNeighborhoodes(municipality_id) {
         $.ajax({
             method     : 'GET',
-            url        : "{!! route('addresses::getNeighborhood') !!}",
+            url        : "{!! route('addresses::neighborhoodes') !!}",
             data       : {
                 name             : 'city_id',
                 label            : '{{ __('base.neighborhoodes.label') }}',
@@ -263,6 +262,7 @@
             },
             statusCode : {
                 200 : function(data) {
+                    console.log(data);
                     $('#neighborhoodes_selector').html(data);
                 }
             }

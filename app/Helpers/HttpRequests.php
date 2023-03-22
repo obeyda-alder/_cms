@@ -17,32 +17,13 @@ trait HttpRequests
     {
         //
     }
-    public function loginRequest($url, $data = [])
-    {
-        try {
-          $response = Http::post(config('app.api') . $url, $data);
-        } catch (\Exception $e) {
-            return back()->with('toastr', [
-                'success'      => false,
-                'type'         => 'error',
-                'title'        => __('base.error'),
-                'description'  => __('base.error_login_to_account')
-            ]);
-        }
-
-        if (in_array($response->status(), [401, 201]) && !request()->routeIs('login')) {
-            return false;
-        }
-        if($response->status()){
-            return json_decode($response->body(), true);
-        }
-    }
-    public function get($url, $data = [])
+    public function get($url, $data = [], $file = false)
     {
         try {
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $this->token(),
-            ])->get(config('app.api') . $url, $data);
+                'locale'        => app()->getLocale()
+                ])->get($url, $data);
         } catch (\Exception $e) {
             return back()->with('toastr', [
                 'success'      => false,
@@ -67,16 +48,19 @@ trait HttpRequests
                 'description'  => $response->successful()
             ]);
         }
+        if($file) {
+            return $response->body();
+        }
         return json_decode($response->body(), true);
     }
     public function post($url, $data = [])
     {
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $this->token(),
-        ])->post(config('app.api') . $url, $data);
-
-        dd($response);
         try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $this->token(),
+                'locale'        => app()->getLocale()
+            ])->post($url, $data);
+
         } catch (\Exception $e) {
             return back()->with('toastr', [
                 'success'      => false,
@@ -86,11 +70,6 @@ trait HttpRequests
             ]);
         }
 
-        if (in_array($response->status(), [401, 201])) {
-            return json_decode($response->body(), true);
-        }
-        if($response->status()){
-            return json_decode($response->body(), true);
-        }
+        return json_decode($response->body(), true);
     }
 }
