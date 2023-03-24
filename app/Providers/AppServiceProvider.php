@@ -7,9 +7,11 @@ use app\Classes\Core;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\App;
+use App\Traits\CmsTrait;
 
 class AppServiceProvider extends ServiceProvider
 {
+    use CmsTrait;
     /**
      * Bootstrap any application services.
      *
@@ -72,6 +74,27 @@ class AppServiceProvider extends ServiceProvider
                 'icon_class' => 'icon-user',
                 'ordering'   => 1,
                 'items'      => $items
+            ]);
+
+
+            //actions
+            $actions = [];
+            foreach($this->actions() as $key => $action)
+            {
+                $actions[] = [
+                    'label'  => __('base.rout_start.actions.'.$action['relation_type']),
+                    'link'   => route('actions', ['type' => strtolower($action['relation_type'])]),
+                ];
+            }
+
+            // actions
+            app()->make('app\Classes\Core')->asideMenu([
+                'header'     => __('base.rout_start.actions.label'),
+                'label'      => __('base.rout_start.actions.label'),
+                'link'       => '',
+                'icon_class' => 'icon-user',
+                'ordering'   => 1,
+                'items'      => $actions
             ]);
 
             //categories

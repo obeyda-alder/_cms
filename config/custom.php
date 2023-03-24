@@ -3,7 +3,7 @@
 return [
     'users_type' => [
         'ALL',
-        'ROOT',
+        // 'ROOT',
         'ADMIN',
         'EMPLOYEE',
         'MASTER_AGENT',

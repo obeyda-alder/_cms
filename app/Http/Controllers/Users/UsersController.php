@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Users;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use DataTables;
@@ -29,7 +28,7 @@ class UsersController extends Controller
     }
     public function index(Request $request,  $type)
     {
-        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
+        if(!in_array($this->userType(), ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -44,6 +43,16 @@ class UsersController extends Controller
     }
     public function data(Request $request)
     {
+        if(!in_array($this->userType(), ["ROOT", "ADMIN"]))
+        {
+            return response()->json([
+                'success'     => false,
+                'type'        => 'permission_denied',
+                'title'       => __('base.permission_denied.title'),
+                'description' => __('base.permission_denied.description'),
+            ], 402);
+        }
+
         $param = [
             'type'   => $request->type,
             'search' => $request->search['value']
@@ -129,7 +138,7 @@ class UsersController extends Controller
     }
     public function create(Request $request)
     {
-        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
+        if(!in_array($this->userType(), ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -148,7 +157,7 @@ class UsersController extends Controller
     }
     public function store(Request $request)
     {
-        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
+        if(!in_array($this->userType(), ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -172,7 +181,7 @@ class UsersController extends Controller
     }
     public function show(Request $request, $id)
     {
-        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
+        if(!in_array($this->userType(), ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -194,7 +203,7 @@ class UsersController extends Controller
     }
     public function update(Request $request)
     {
-        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
+        if(!in_array($this->userType(), ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -256,7 +265,7 @@ class UsersController extends Controller
     }
     public function softDelete(Request $request, $id)
     {
-        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
+        if(!in_array($this->userType(), ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -279,7 +288,7 @@ class UsersController extends Controller
     }
     public function delete(Request $request, $id)
     {
-        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
+        if(!in_array($this->userType(), ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,
@@ -302,7 +311,7 @@ class UsersController extends Controller
     }
     public function restore(Request $request, $id)
     {
-        if(!in_array($this->user()['type'], ["ROOT", "ADMIN"]))
+        if(!in_array($this->userType(), ["ROOT", "ADMIN"]))
         {
             return response()->json([
                 'success'     => false,

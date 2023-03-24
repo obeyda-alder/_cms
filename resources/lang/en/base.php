@@ -30,6 +30,14 @@ return [
                 'CUSTOMER'        => 'CUSTOMER',
             ],
         ],
+        'actions' => [
+            'label'                 => 'actions',
+            'ADMIN_TO_EMPLOYEE'     => 'ADMIN TO EMPLOYEE',
+            'ADMIN_TO_MASTER_AGENT' => 'ADMIN TO MASTER AGENT',
+            'ADMIN_TO_SUB_AGENT'    => 'ADMIN TO SUB AGENT',
+            'ADMIN_TO_CUSTOMER'     => 'ADMIN TO CUSTOMER',
+            'ADMIN_TO_ADMIN'        => 'ADMIN TO ADMIN'
+        ],
         'agencies' => [
             'label' => 'agencies',
             'agencies_types' => [
