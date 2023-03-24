@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\CMS\Http\Controllers\Categories;
+namespace App\Http\Controllers\Categories;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;

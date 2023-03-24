@@ -1,21 +1,23 @@
 <?php
 return [
-    'dashboard'  => 'Dashboard',
-    'logout'     => 'Logout',
-    'profile'    => 'profile',
-    'title_p'    => 'paid with ...',
-    'update'     => 'update',
-    'save'       => 'save',
-    'create'     => 'create',
-    'cancel'     => 'cancel',
-    'restore'    => 'restore',
-    'delete'     => 'delete',
-    'select'     => 'select',
-    'change'     => 'change',
-    'remove'     => 'remove',
-    'soft_delete'=> 'soft delete',
-    'update'     => 'update',
-    'refreshDataTable' => 'Refresh',
+    'dashboard'           => 'Dashboard',
+    'logout'              => 'Logout',
+    'profile'             => 'profile',
+    'title_p'             => 'paid with ...',
+    'update'              => 'update',
+    'save'                => 'save',
+    'create'              => 'create',
+    'cancel'              => 'cancel',
+    'restore'             => 'restore',
+    'delete'              => 'delete',
+    'select'              => 'select',
+    'change'              => 'change',
+    'no_data'             => 'No Data To Display',
+    'remove'              => 'remove',
+    'soft_delete'         => 'soft delete',
+    'update'              => 'update',
+    'no_data_operations'  => 'This Relationship Has No Operations',
+    'refreshDataTable'    => 'Refresh',
     'rout_start' => [
         'dashboard' => 'Dashboard',
         'users' => [
@@ -31,19 +33,17 @@ return [
             ],
         ],
         'actions' => [
-            'label'                 => 'actions',
-            'ADMIN_TO_EMPLOYEE'     => 'ADMIN TO EMPLOYEE',
-            'ADMIN_TO_MASTER_AGENT' => 'ADMIN TO MASTER AGENT',
-            'ADMIN_TO_SUB_AGENT'    => 'ADMIN TO SUB AGENT',
-            'ADMIN_TO_CUSTOMER'     => 'ADMIN TO CUSTOMER',
-            'ADMIN_TO_ADMIN'        => 'ADMIN TO ADMIN'
-        ],
-        'agencies' => [
-            'label' => 'agencies',
-            'agencies_types' => [
-                'master_agent'  => 'Master Agent',
-                'sub_agent'     => 'Sub Agent',
-            ]
+            'label'                    => 'actions',
+            'ADMIN_TO_EMPLOYEE'        => 'ADMIN TO EMPLOYEE',
+            'ADMIN_TO_MASTER_AGENT'    => 'ADMIN TO MASTER AGENT',
+            'ADMIN_TO_SUB_AGENT'       => 'ADMIN TO SUB AGENT',
+            'ADMIN_TO_CUSTOMER'        => 'ADMIN TO CUSTOMER',
+            'ADMIN_TO_ADMIN'           => 'ADMIN TO ADMIN',
+            'EMPLOYEE_TO_EMPLOYEE'     => 'EMPLOYEE TO EMPLOYEE',
+            'EMPLOYEE_TO_MASTER_AGENT' => 'EMPLOYEE TO MASTER AGENT',
+            'EMPLOYEE_TO_SUB_AGENT'    => 'EMPLOYEE TO SUB AGENT',
+            'EMPLOYEE_TO_CUSTOMER'     => 'EMPLOYEE TO CUSTOMER',
+            'EMPLOYEE_TO_ADMIN'        => 'EMPLOYEE TO ADMIN',
         ],
         'categories' => [
             'label' => 'categories',
@@ -127,6 +127,34 @@ return [
             'title'        => 'success',
             'description'  => 'success message',
         ],
+    ],
+    'actions' => [
+        'operations' => [
+            'label'        => 'operations',
+            'placeholder'  => 'operations',
+            'help'         => 'operations',
+        ],
+        'to_user' => [
+            'label'        => 'to_user',
+            'placeholder'  => 'to_user',
+            'help'         => 'to_user',
+        ],
+        'price' => [
+            'label'        => 'price',
+            'placeholder'  => 'price',
+            'help'         => 'price',
+        ],
+        'unit_value' => [
+            'label'        => 'unit_value',
+            'placeholder'  => 'unit_value',
+            'help'         => 'unit_value',
+        ],
+        'label' => 'actions',
+        'ADMIN_TO_EMPLOYEE'     => 'ADMIN TO EMPLOYEE',
+        'ADMIN_TO_MASTER_AGENT' => 'ADMIN TO MASTER AGENT',
+        'ADMIN_TO_SUB_AGENT'    => 'ADMIN TO SUB AGENT',
+        'ADMIN_TO_CUSTOMER'     => 'ADMIN TO CUSTOMER',
+        'ADMIN_TO_ADMIN'        => 'ADMIN TO ADMIN'
     ],
     'agencies' => [
         'table' => [

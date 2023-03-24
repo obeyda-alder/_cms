@@ -48,17 +48,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => 'loc
             Route::post('restore/{id}', 'UsersController@restore')->name('users::restore');
         });
 
-        Route::group(['prefix' => 'actions', 'namespace' => 'Categories'], function(){
-            Route::get('', 'CategoriesController@index')->name('actions');
-            Route::get('generateCode', 'CategoriesController@generateCode')->name('categories::generateCode');
-            Route::get('categories_data', 'CategoriesController@data')->name('categories::data');
-            Route::get('create', 'CategoriesController@create')->name('categories::create');
-            Route::post('store', 'CategoriesController@store')->name('categories::store');
-            Route::get('edit/{id}', 'CategoriesController@show')->name('categories::edit');
-            Route::post('e/store', 'CategoriesController@update')->name('categories::e-store');
-            Route::post('soft_delete/{id}', 'CategoriesController@softDelete')->name('categories::soft_delete');
-            Route::post('delete/{id}', 'CategoriesController@delete')->name('categories::delete');
-            Route::post('restore/{id}', 'CategoriesController@restore')->name('categories::restore');
+        Route::group(['prefix' => 'actions', 'namespace' => 'Actions'], function(){
+            Route::get('{type}', 'ActionsController@index')->name('actions');
+            Route::post('make-operations', 'ActionsController@make_operations')->name('make_operations');
         });
 
         Route::group(['prefix' => 'categories', 'namespace' => 'Categories'], function(){

@@ -28,6 +28,9 @@ return [
             'Cities'            => config('app.api').'addresses/get_Cities',
             'Municipalites'     => config('app.api').'addresses/get_Municipalites',
             'Neighborhoodes'    => config('app.api').'addresses/get_Neighborhoodes',
-        ]
+        ],
+        'operations' => [
+            'make'              => config('app.api').'make_operations',
+        ],
     ]
 ];

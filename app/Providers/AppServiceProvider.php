@@ -57,33 +57,53 @@ class AppServiceProvider extends ServiceProvider
                 'ordering'   => 0
             ]);
 
-            //users
-            $items = [];
-            foreach(config('custom.users_type') as $key => $user)
+            if(in_array($this->userType(), ["ROOT", "ADMIN"]))
             {
-                $items[] = [
-                    'label'  => __('base.rout_start.users.types.'.$user),
-                    'link'   => route('users', ['type' => strtolower($user)]),
-                ];
+                //users
+                $items = [];
+                foreach(config('custom.users_type') as $key => $user)
+                {
+                    $items[] = [
+                        'label'  => __('base.rout_start.users.types.'.$user),
+                        'link'   => route('users', ['type' => strtolower($user)]),
+                    ];
+                }
+
+                app()->make('app\Classes\Core')->asideMenu([
+                    'header'     => __('base.rout_start.users.label'),
+                    'label'      => __('base.rout_start.users.label'),
+                    'link'       => '',
+                    'icon_class' => 'icon-user',
+                    'ordering'   => 1,
+                    'items'      => $items
+                ]);
+
+
+                //categories
+                app()->make('app\Classes\Core')->asideMenu([
+                    'header'     => __('base.rout_start.categories.label'),
+                    'label'      => __('base.rout_start.categories.label'),
+                    'link'       => route('categories'),
+                    'icon_class' => 'icon-list',
+                    'ordering'   => 3,
+                ]);
+
+                //units
+                app()->make('app\Classes\Core')->asideMenu([
+                    'header'     => __('base.rout_start.units.label'),
+                    'label'      => __('base.rout_start.units.label'),
+                    'link'       => route('units'),
+                    'icon_class' => 'icon-list',
+                    'ordering'   => 4,
+                ]);
             }
-
-            app()->make('app\Classes\Core')->asideMenu([
-                'header'     => __('base.rout_start.users.label'),
-                'label'      => __('base.rout_start.users.label'),
-                'link'       => '',
-                'icon_class' => 'icon-user',
-                'ordering'   => 1,
-                'items'      => $items
-            ]);
-
-
             //actions
             $actions = [];
             foreach($this->actions() as $key => $action)
             {
                 $actions[] = [
                     'label'  => __('base.rout_start.actions.'.$action['relation_type']),
-                    'link'   => route('actions', ['type' => strtolower($action['relation_type'])]),
+                    'link'   => route('actions', ['type' => $action['relation_type']]),
                 ];
             }
 
@@ -93,26 +113,8 @@ class AppServiceProvider extends ServiceProvider
                 'label'      => __('base.rout_start.actions.label'),
                 'link'       => '',
                 'icon_class' => 'icon-user',
-                'ordering'   => 1,
+                'ordering'   => 2,
                 'items'      => $actions
-            ]);
-
-            //categories
-            app()->make('app\Classes\Core')->asideMenu([
-                'header'     => __('base.rout_start.categories.label'),
-                'label'      => __('base.rout_start.categories.label'),
-                'link'       => route('categories'),
-                'icon_class' => 'icon-list',
-                'ordering'   => 1,
-            ]);
-
-            //units
-            app()->make('app\Classes\Core')->asideMenu([
-                'header'     => __('base.rout_start.units.label'),
-                'label'      => __('base.rout_start.units.label'),
-                'link'       => route('units'),
-                'icon_class' => 'icon-list',
-                'ordering'   => 1,
             ]);
         });
     }

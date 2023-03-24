@@ -15,10 +15,10 @@ Breadcrumbs::for('users', function (BreadcrumbTrail $trail) : void {
     $trail->push($type, route('users', $type));
 });
 
-Breadcrumbs::for('agencies', function (BreadcrumbTrail $trail) : void {
-    $agencies_type = request()->route()->parameter('agencies_type');
-    $trail->push('agencies', route('agencies', $agencies_type));
-    $trail->push( __('base.rout_start.agencies.agencies_types.'.$agencies_type) , route('agencies', $agencies_type));
+Breadcrumbs::for('actions', function (BreadcrumbTrail $trail) : void {
+    $actions = request()->route()->parameter('type');
+    $trail->push('actions', route('actions', $actions));
+    $trail->push( __('base.rout_start.actions.'.$actions) , route('actions', $actions));
 });
 
 Breadcrumbs::for('categories', function (BreadcrumbTrail $trail) : void {

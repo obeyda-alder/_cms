@@ -60,7 +60,6 @@ trait HttpRequests
                 'Authorization' => 'Bearer ' . $this->token(),
                 'locale'        => app()->getLocale()
             ])->post($url, $data);
-
         } catch (\Exception $e) {
             return back()->with('toastr', [
                 'success'      => false,
@@ -69,7 +68,6 @@ trait HttpRequests
                 'description'  => __('base.error_login_to_account')
             ]);
         }
-
         return json_decode($response->body(), true);
     }
 }
