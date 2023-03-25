@@ -54,6 +54,7 @@ class ActionsController extends Controller
             'type'        => 'success',
             'title'       => __('base.msg.success_message.title'),
             'description' => __('base.msg.success_message.description'),
+            'redirect_url'  => route("actions", ["type" => $request->type])
         ], 200);
     }
 }

@@ -116,6 +116,21 @@
             </div>
             @include('backend.includes.inputs.select', [
                 'options' => [
+                    'id'          => 'status',
+                    'nullable'    => false,
+                    'name'        => 'status',
+                    'label'       => __('base.categories.fields.status.label'),
+                    'placeholder' => __('base.categories.fields.status.placeholder'),
+                    'help'        => __('base.categories.fields.status.help'),
+                    'data'        => ["SUSPENDED","ACTIVE","PENDING","FROZEN"],
+                    'selected'    => old('status', $user['status']),
+                    'value'       => function($data, $key, $value){ return $value; },
+                    'text'        => function($data, $key, $value){ return __('base.users.fields.status.'.$value); },
+                    'select'      => function($data, $selected, $key, $value){ return $selected == $value; },
+                ]
+            ])
+            @include('backend.includes.inputs.select', [
+                'options' => [
                     'id'          => 'country_selector',
                     'nullable'    => true,
                     'name'        => 'country_id',

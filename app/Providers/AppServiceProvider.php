@@ -88,15 +88,6 @@ class AppServiceProvider extends ServiceProvider
                     'ordering'   => 7,
                 ]);
 
-                //units
-                app()->make('app\Classes\Core')->asideMenu([
-                    'header'     => __('base.rout_start.units.label'),
-                    'label'      => __('base.rout_start.units.label'),
-                    'link'       => route('units'),
-                    'icon_class' => 'icon-link',
-                    'ordering'   => 4,
-                ]);
-
                 //units history
                 app()->make('app\Classes\Core')->asideMenu([
                     'header'     => __('base.rout_start.units_history.label'),

@@ -9,26 +9,78 @@
 <script src="{{ asset('vendors/chart.js/Chart.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('vendors/chartist/chartist.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('vendors/chartist/chartist.min.js.map') }}" type="text/javascript"></script>
+<script src="{{ asset('vendors/datatables/datatables.bundle.js') }}"></script>
 
 <script>
     $(document).ready(function () {
-        //
+        $.ajax({
+            url: "{!! route('check_order') !!}",
+            method: 'GET',
+            success: function(success) {
+                if(success > 0 ) {
+                    $('.order_count').append(`<span>${success}</span>`)
+                    $('#icon-bell').addClass('active');
+                }
+            },
+            error: function(error) {
+                console.log(error)
+            },
+        });
     });
 
     const lengthMenu = [[5,10, 25, 50, 200, 400, 1000, 2000, -1], [5,10, 25, 50, 200, 400, 1000, 'All']];
     const pagle      = 25;
     const language   = { url: "{!! __('base.lang_data_table') !!}" };
+    var responsive = {
+            details: {
+                renderer: function ( api, rowIdx ) {
+                    // Select hidden columns for the given row
+                    var data = api.cells( rowIdx, ':hidden' ).eq(0).map( function ( cell ) {
+                        var header = $( api.column( cell.column ).header() );
+
+                        return '<tr>'+
+                                '<td>'+
+                                    header.text()+':'+
+                                '</td> '+
+                                '<td>'+
+                                    api.cell( cell ).data()+
+                                '</td>'+
+                            '</tr>';
+                    } ).toArray().join('');
+
+                    return data ?
+                        $('<table/>').append( data ) :
+                        false;
+                }
+            }
+            };
+            var columnDefs = [
+                {
+                    targets: 0,
+                    className: 'control',
+                    orderable: false
+                }
+            ];
+
+
     var options = {
         processing: true,
-            serverSide: true,
-            lengthMenu: lengthMenu,
-            pageLength: pagle,
-            language: language,
-            rowCallback: function(row, data) {
-                if( data["deleted_at"] ){
-                    $(row).css('background-color', "rgb(201, 76, 76, 0.1)");
-                }
-            },
+        serverSide: true,
+        responsive: true,
+        columnDefs: columnDefs,
+        responsive: responsive,
+        autoFill: true,
+        fixedColumns: true,
+        paging: true,
+        info: true,
+        lengthMenu: lengthMenu,
+        pageLength: pagle,
+        language: language,
+        rowCallback: function(row, data) {
+            if( data["deleted_at"] ){
+                $(row).css('background-color', "rgb(201, 76, 76, 0.1)");
+            }
+        },
     }
     function dataTableActions(data,type,row,meta){
         var actions = '<span class="d-flex element-icon">';

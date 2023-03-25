@@ -4,33 +4,20 @@ namespace App\Http\Controllers\Categories;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\CMS\Entities\Categories;
 use DataTables;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use DB;
 use App\Helpers\Helper;
-use App\Models\User;
-use Keygen\Keygen;
+use App\Helpers\HttpRequests;
 
 class CategoriesController extends Controller
 {
-    use Helper;
+    use Helper, HttpRequests;
 
     public function __construct()
     {
         //
-    }
-    public function generateCode($length = 10)
-    {
-        $code = Keygen::numeric($length)->prefix('CA-')->generate();
-
-        if(Categories::where('code', $code)->exists())
-        {
-            return $this->generateCode($length);
-        }
-
-        return $code;
     }
     public function index(Request $request)
     {
@@ -47,77 +34,90 @@ class CategoriesController extends Controller
     }
     public function data(Request $request)
     {
-        $data = Categories::orderBy('id', 'DESC')->withTrashed();
+        if(!in_array($this->userType(), ["ROOT", "ADMIN"]))
+        {
+            return response()->json([
+                'success'     => false,
+                'type'        => 'permission_denied',
+                'title'       => __('base.permission_denied.title'),
+                'description' => __('base.permission_denied.description'),
+            ], 402);
+        }
 
-        $data->get();
-        return Datatables::of($data)
-        ->filter(function($query) use ($request) {
-            if(!is_null($request->search['value']))
-            {
-                $query->where(function($q) use ($request) {
-                    $q->where('name', 'like', "%{$request->search['value']}%")
-                    ->orWhere('code', 'like', "%{$request->search['value']}%")
-                    ->orWhere('price', 'like', "%{$request->search['value']}%");
-                });
-            }
-        })
+        $data = $this->get(config('custom.api_routes.categories.index'), [ 'search' => $request->search['value'] ]);
+        if(!$data['success']){
+            return $data;
+        }
+        return Datatables::of($data['data'])
         ->addIndexColumn()
         ->addColumn('name', function ($category) {
-            return $category->name ?? '';
+            return $category['name'] ?? '';
         })
         ->addColumn('code', function ($category) {
-            return $category->code ?? '';
+            return $category['code'] ?? '';
         })
-        ->addColumn('from_to', function ($category) {
-            return __('base.categories.from_to', ['from' => $category->from, 'to' => $category->to]) ?? '';
+        ->addColumn('unit_min_limit', function ($category) {
+            return $category['unit_min_limit'] ?? '';
         })
-        ->addColumn('price', function ($category) {
-            return $category->price ?? '';
+        ->addColumn('unit_max_limit', function ($category) {
+            return $category['unit_max_limit'] ?? '';
+        })
+        ->addColumn('value_in_price', function ($category) {
+            return $category['value_in_price'] ?? '';
         })
         ->addColumn('status', function ($category) {
-            return $category->status ?? '';
+            return $category['status'] ?? '';
+        })
+        ->addColumn('percentage', function ($category) {
+            return $category['percentage'] . ' %' ?? '';
+        })
+        ->addColumn('add_by_user_id', function ($category) {
+            return $category['user']['name'] ?? '';
+        })
+        ->addColumn('created_at', function ($category) {
+            return $category['created_at'] ?? '';
         })
         ->addColumn('actions', function($category) use($request){
             $actions   = [];
-            if($category->trashed()) {
+            if($category['deleted_at']) {
                 $actions[] = [
-                    'id'            => $category->id,
+                    'id'            => $category['id'],
                     'label'         => __('base.restore'),
                     'type'          => 'icon',
-                    'link'          => route('categories::restore', ['id' => $category->id ]),
+                    'link'          => route('categories::restore', ['id' => $category['id'] ]),
                     'method'        => 'POST',
-                    'request_type'  => 'category_restore_'.$category->id,
+                    'request_type'  => 'category_restore_'.$category['id'],
                     'class'         => 'restore-action',
                     'icon'          => 'fas fa-trash-restore'
                 ];
                 $actions[] = [
-                    'id'            => $category->id,
+                    'id'            => $category['id'],
                     'label'         => __('base.delete'),
                     'type'          => 'icon',
-                    'link'          => route('categories::delete', ['id' => $category->id ]),
+                    'link'          => route('categories::delete', ['id' => $category['id'] ]),
                     'method'        => 'POST',
-                    'request_type'  => 'delete_'.$category->id,
+                    'request_type'  => 'delete_'.$category['id'],
                     'class'         => 'delete-action',
                     'icon'          => 'fas fa-user-times'
                 ];
             } else {
                 $actions[] = [
-                    'id'            => $category->id,
+                    'id'            => $category['id'],
                     'label'         => __('base.soft_delete'),
                     'type'          => 'icon',
-                    'link'          => route('categories::soft_delete', ['id' => $category->id ]),
+                    'link'          => route('categories::soft_delete', ['id' => $category['id'] ]),
                     'method'        => 'POST',
-                    'request_type'  => 'soft_delete_'.$category->id,
+                    'request_type'  => 'soft_delete_'.$category['id'],
                     'class'         => 'soft-delete-action',
                     'icon'          => 'fas fa-trash'
                 ];
                 $actions[] = [
-                    'id'            => $category->id,
+                    'id'            => $category['id'],
                     'label'         => __('base.update'),
                     'type'          => 'icon',
-                    'link'          => route('categories::edit', ['id' => $category->id ]),
+                    'link'          => route('categories::edit', ['id' => $category['id'] ]),
                     'method'        => 'GET',
-                    'request_type'  => 'update_'.$category->id,
+                    'request_type'  => 'update_'.$category['id'],
                     'class'         => 'update-action',
                     'icon'          => 'fas fa-edit'
                 ];
@@ -152,47 +152,9 @@ class CategoriesController extends Controller
                 'description' => __('base.permission_denied.description'),
             ], 402);
         }
-
-        $userValidator = [
-            'name'    => 'required|string|max:255',
-            'code'    => 'required|string|max:255',
-            'from'    => 'required|numeric',
-            'to'      => 'required|numeric',
-            'price'   => 'required|numeric',
-            'status'  => 'required|in:ACTIVE,NOT_ACTIVE',
-        ];
-
-        $validator = Validator::make($request->all(), $userValidator);
-        if(!$validator->fails())
-        {
-            try{
-                DB::transaction(function() use ($request) {
-                    $data = new Categories;
-                    $data->name    = $request->name;
-                    $data->code    = $request->code;
-                    $data->from    = $request->from;
-                    $data->to      = $request->to;
-                    $data->price   = $request->price;
-                    $data->status  = $request->status;
-                    $data->save();
-                });
-            }catch (Exception $e){
-                return response()->json([
-                    'success'     => false,
-                    'type'        => 'error',
-                    'title'       => __('base.msg.error_message.title'),
-                    'description' => __('base.msg.error_message.description'),
-                    'errors'      => '['. $e->getMessage() .']'
-                ], 500);
-            }
-        }else {
-            return response()->json([
-                'success'     => false,
-                'type'        => 'error',
-                'title'       => __('base.msg.validation_error.title'),
-                'description' => __('base.msg.validation_error.description'),
-                'errors'      => $validator->getMessageBag()->toArray()
-            ], 402);
+        $category = $this->post(config('custom.api_routes.categories.create'), $request->all());
+        if(!$category['success']){
+            return $category;
         }
         return response()->json([
             'success'     => true,
@@ -202,7 +164,7 @@ class CategoriesController extends Controller
             'redirect_url'  => route('categories')
         ], 200);
     }
-    public function show(Request $request, $id)
+    public function edit(Request $request, $id)
     {
         if(!in_array($this->userType(), ["ROOT", "ADMIN"]))
         {
@@ -213,8 +175,11 @@ class CategoriesController extends Controller
                 'description' => __('base.permission_denied.description'),
             ], 402);
         }
-        $categories = Categories::find($id);
-        return view('backend.categories.update', ['categories' => $categories]);
+        $category = $this->get(config('custom.api_routes.categories.edit').'/'.$id);
+        if(!$category['success']){
+            return $category;
+        }
+        return view('backend.categories.update', ['category' => $category['data'] ]);
     }
     public function update(Request $request)
     {
@@ -227,47 +192,9 @@ class CategoriesController extends Controller
                 'description' => __('base.permission_denied.description'),
             ], 402);
         }
-
-        $userValidator = [
-            'name'    => 'required|string|max:255',
-            'code'    => 'required|string|max:255',
-            'from'    => 'required|numeric',
-            'to'      => 'required|numeric',
-            'price'   => 'required|numeric',
-            'status'  => 'required|in:ACTIVE,NOT_ACTIVE',
-        ];
-
-        $validator = Validator::make($request->all(), $userValidator);
-        if(!$validator->fails())
-        {
-            try{
-                DB::transaction(function() use ($request) {
-                    $data = Categories::find($request->cat_id);
-                    $data->name    = $request->name;
-                    $data->code    = $request->code;
-                    $data->from    = $request->from;
-                    $data->to      = $request->to;
-                    $data->price   = $request->price;
-                    $data->status  = $request->status;
-                    $data->save();
-                });
-            }catch (Exception $e){
-                return response()->json([
-                    'success'     => false,
-                    'type'        => 'error',
-                    'title'       => __('base.msg.error_message.title'),
-                    'description' => __('base.msg.error_message.description'),
-                    'errors'      => '['. $e->getMessage() .']'
-                ], 500);
-            }
-        }else {
-            return response()->json([
-                'success'     => false,
-                'type'        => 'error',
-                'title'       => __('base.msg.validation_error.title'),
-                'description' => __('base.msg.validation_error.description'),
-                'errors'      => $validator->getMessageBag()->toArray()
-            ], 402);
+        $category = $this->post(config('custom.api_routes.categories.update').'/'.$request->cat_id, $request->all());
+        if(!$category['success']){
+            return $category;
         }
         return response()->json([
             'success'     => true,
@@ -276,7 +203,6 @@ class CategoriesController extends Controller
             'description' => __('base.msg.success_message.description'),
             'redirect_url'  => route('categories')
         ], 200);
-
     }
     public function softDelete(Request $request, $id)
     {
@@ -290,19 +216,10 @@ class CategoriesController extends Controller
             ], 402);
         }
 
-        $categories = Categories::withTrashed()->find($id);
-
-        if(!is_null($categories)){
-            $categories->delete();
-        } else {
-            return response()->json([
-                'success'     => false,
-                'type'        => 'error',
-                'title'       => __('base.msg.error_message.title'),
-                'description' => __('base.msg.error_message.description'),
-            ], 500);
+        $category = $this->post(config('custom.api_routes.categories.soft_delete').'/'.$id);
+        if(!$category['success']){
+            return $category;
         }
-
         return response()->json([
             'success'     => true,
             'type'        => 'success',
@@ -322,19 +239,10 @@ class CategoriesController extends Controller
             ], 402);
         }
 
-        $categories = Categories::withTrashed()->find($id);
-
-        if(!is_null($categories)){
-            $categories->forceDelete();
-        } else {
-            return response()->json([
-                'success'     => false,
-                'type'        => 'error',
-                'title'       => __('base.msg.error_message.title'),
-                'description' => __('base.msg.error_message.description'),
-            ], 500);
+        $category = $this->post(config('custom.api_routes.categories.delete').'/'.$id);
+        if(!$category['success']){
+            return $category;
         }
-
         return response()->json([
             'success'     => true,
             'type'        => 'success',
@@ -354,19 +262,10 @@ class CategoriesController extends Controller
             ], 402);
         }
 
-        $categories = Categories::withTrashed()->find($id);
-
-        if(!is_null($categories)){
-            $categories->restore();
-        } else {
-            return response()->json([
-                'success'     => false,
-                'type'        => 'error',
-                'title'       => __('base.msg.error_message.title'),
-                'description' => __('base.msg.error_message.description'),
-            ], 500);
+        $category = $this->post(config('custom.api_routes.categories.restore').'/'.$id);
+        if(!$category['success']){
+            return $category;
         }
-
         return response()->json([
             'success'     => true,
             'type'        => 'success',

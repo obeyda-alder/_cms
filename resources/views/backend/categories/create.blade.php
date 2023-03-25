@@ -16,7 +16,6 @@
     @csrf
     <div class="row">
         <div class="col-md-6">
-
             @include('backend.includes.inputs.text', [
                 'options' => [
                     'id'          => 'name',
@@ -27,67 +26,53 @@
                     'value'       => old('name')
                 ]
             ])
-
-            <div class="row">
-                <div class="col-9 pr-0">
-                    @include('backend.includes.inputs.text', [
-                        'options' => [
-                            'id'          => 'code',
-                            'name'        => 'code',
-                            'label'       => __('base.categories.fields.code.label'),
-                            'placeholder' => __('base.categories.fields.code.placeholder'),
-                            'help'        => __('base.categories.fields.code.help'),
-                            'value'       => old('code')
-                        ]
-                    ])
-                </div>
-                <div class="col-3 code-gen">
-                    <button class="btn btn-info btn-genrate-code" id="genrate_code" >{{  __('base.categories.genrate_code') }}</button>
-                </div>
-            </div>
-
             <div class="row">
                 <div class="col-6">
                     @include('backend.includes.inputs.text', [
                         'options' => [
-                            'id'          => 'from',
-                            'name'        => 'from',
+                            'id'          => 'unit_min_limit',
+                            'name'        => 'unit_min_limit',
                             'type'        => 'number',
-                            'label'       => __('base.categories.fields.from.label'),
-                            'placeholder' => __('base.categories.fields.from.placeholder'),
-                            // 'help'        => __('base.categories.fields.from.help'),
-                            'value'       => old('from')
+                            'label'       => __('base.categories.fields.unit_min_limit.label'),
+                            'placeholder' => __('base.categories.fields.unit_min_limit.placeholder'),
+                            'value'       => old('unit_min_limit')
                         ]
                     ])
                 </div>
                 <div class="col-6">
                     @include('backend.includes.inputs.text', [
                         'options' => [
-                            'id'          => 'to',
-                            'name'        => 'to',
+                            'id'          => 'unit_max_limit',
+                            'name'        => 'unit_max_limit',
                             'type'        => 'number',
-                            'label'       => __('base.categories.fields.to.label'),
-                            'placeholder' => __('base.categories.fields.to.placeholder'),
-                            // 'help'        => __('base.categories.fields.to.help'),
-                            'value'       => old('to')
+                            'label'       => __('base.categories.fields.unit_max_limit.label'),
+                            'placeholder' => __('base.categories.fields.unit_max_limit.placeholder'),
+                            'value'       => old('unit_max_limit')
                         ]
                     ])
                 </div>
             </div>
-
             @include('backend.includes.inputs.text', [
                 'options' => [
-                    'id'          => 'price',
-                    'name'        => 'price',
+                    'id'          => 'value_in_price',
+                    'name'        => 'value_in_price',
                     'type'        => 'number',
                     'step'        => '0.01',
-                    'label'       => __('base.categories.fields.price.label'),
-                    'placeholder' => __('base.categories.fields.price.placeholder'),
-                    // 'help'        => __('base.categories.fields.price.help'),
-                    'value'       => old('price')
+                    'label'       => __('base.categories.fields.value_in_price.label'),
+                    'placeholder' => __('base.categories.fields.value_in_price.placeholder'),
+                    'value'       => old('value_in_price')
                 ]
             ])
-
+            @include('backend.includes.inputs.text', [
+                'options' => [
+                    'id'          => 'percentage',
+                    'name'        => 'percentage',
+                    'type'        => 'number',
+                    'label'       => __('base.categories.fields.percentage.label'),
+                    'placeholder' => __('base.categories.fields.percentage.placeholder'),
+                    'value'       => old('percentage')
+                ]
+            ])
             @include('backend.includes.inputs.select', [
                 'options' => [
                     'id'          => 'status',
@@ -111,36 +96,12 @@
 
 @push('styles')
 <style>
-    .code-gen{
-        padding: 0;
-        margin-top: 23px;
-    }
-    .btn-genrate-code{
-        width: 100%;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+    /*  */
 </style>
 @endpush
 
 @push('scripts')
 <script>
-    $('#genrate_code').click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        $.ajax({
-            method     : 'GET',
-            url        : "{!! route('categories::generateCode') !!}",
-            data       : {},
-            statusCode : {
-                200 : function(data) {
-                    $('#code').val(data);
-                }
-            }
-        });
-    })
+    //
 </script>
 @endpush

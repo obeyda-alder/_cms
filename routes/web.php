@@ -55,6 +55,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => 'loc
 
             Route::get('money-history', 'UsersController@MoneyHistory')->name('money_history');
             Route::get('money-history-data', 'UsersController@MoneyHistoryData')->name('users::money_history');
+
+            Route::get('check_order', 'UsersController@CheckOrder')->name('check_order');
         });
 
         Route::group(['prefix' => 'actions', 'namespace' => 'Actions'], function(){
@@ -64,29 +66,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => 'loc
 
         Route::group(['prefix' => 'categories', 'namespace' => 'Categories'], function(){
             Route::get('', 'CategoriesController@index')->name('categories');
-            Route::get('generateCode', 'CategoriesController@generateCode')->name('categories::generateCode');
             Route::get('categories_data', 'CategoriesController@data')->name('categories::data');
             Route::get('create', 'CategoriesController@create')->name('categories::create');
             Route::post('store', 'CategoriesController@store')->name('categories::store');
-            Route::get('edit/{id}', 'CategoriesController@show')->name('categories::edit');
+            Route::get('edit/{id}', 'CategoriesController@edit')->name('categories::edit');
             Route::post('e/store', 'CategoriesController@update')->name('categories::e-store');
             Route::post('soft_delete/{id}', 'CategoriesController@softDelete')->name('categories::soft_delete');
             Route::post('delete/{id}', 'CategoriesController@delete')->name('categories::delete');
             Route::post('restore/{id}', 'CategoriesController@restore')->name('categories::restore');
-        });
-
-        Route::group(['prefix' => 'units', 'namespace' => 'Units'], function(){
-            Route::get('', 'UnitsController@index')->name('units');
-            Route::get('generateCode', 'UnitsController@generateCode')->name('units::generateCode');
-            Route::get('getCategory', 'UnitsController@getCategory')->name('units::getCategory');
-            Route::get('units_data', 'UnitsController@data')->name('units::data');
-            Route::get('create', 'UnitsController@create')->name('units::create');
-            Route::post('store', 'UnitsController@store')->name('units::store');
-            Route::get('edit/{id}', 'UnitsController@show')->name('units::edit');
-            Route::post('e/store', 'UnitsController@update')->name('units::e-store');
-            Route::post('soft_delete/{id}', 'UnitsController@softDelete')->name('units::soft_delete');
-            Route::post('delete/{id}', 'UnitsController@delete')->name('units::delete');
-            Route::post('restore/{id}', 'UnitsController@restore')->name('units::restore');
         });
     });
 

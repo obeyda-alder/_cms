@@ -25,10 +25,11 @@
 
 @section('content')
 
-<table class="table table-bordered data-table" id="data-table">
+<table class="table table-bordered data-table display nowrap" id="data-table"  cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th>{{ __('base.users.table.id') }}</th>
+            {{-- <th>{{ __('base.users.table.id') }}</th> --}}
+            <th>{{ __('base.users.table.image') }}</th>
             <th>{{ __('base.users.table.name') }}</th>
             <th>{{ __('base.users.table.type') }}</th>
             <th>{{ __('base.users.table.username') }}</th>
@@ -37,6 +38,7 @@
             <th>{{ __('base.users.table.verification_code') }}</th>
             <th>{{ __('base.users.table.status') }}</th>
             <th>{{ __('base.users.table.registration_type') }}</th>
+            <th>{{ __('base.users.table.created_at') }}</th>
             <th>{{ __('base.users.table.actions') }}</th>
         </tr>
     </thead>
@@ -55,7 +57,30 @@
 
 @push('styles')
 <style>
-
+.SUSPENDED{
+    background-color: #DF2E38;
+    color: #fff;
+    padding: 5px;
+    border-radius: 15px;
+}
+.ACTIVE{
+    background-color: #5D9C59;
+    color: #fff;
+    padding: 5px;
+    border-radius: 15px;
+}
+.PENDING{
+    background-color: #EBB02D;
+    color: #fff;
+    padding: 5px;
+    border-radius: 15px;
+}
+.FROZEN{
+    background-color: #57C5B6;
+    color: #fff;
+    padding: 5px;
+    border-radius: 15px;
+}
 </style>
 @endpush
 @push('scripts')
@@ -70,41 +95,64 @@
                 },
             },
             columns: [
+                // { data: null, defaultContent: "", width: "0%" },
+                // {
+                //     data: 'id',
+                //     name: 'id'
+                // },
                 {
-                    data: 'id',
-                    name: 'id'
+                    data: 'image',
+                    width: "15%",
+                    name: 'image',
+                    render: function ( data, type, row, meta ) {
+                        return `<img src="${data}" />`;
+                    }
                 },
                 {
                     data: 'name',
-                    name: 'name'
+                    width: "15%",
+                    name: 'name',
                 },
                 {
                     data: 'type',
-                    name: 'type'
+                    width: "15%",
+                    name: 'type',
                 },
                 {
                     data: 'username',
-                    name: 'username'
+                    width: "15%",
+                    name: 'username',
                 },
                 {
                     data: 'phone_number',
-                    name: 'phone_number'
+                    width: "15%",
+                    name: 'phone_number',
                 },
                 {
                     data: 'email',
-                    name: 'email'
+                    width: "15%",
+                    name: 'email',
                 },
                 {
                     data: 'verification_code',
-                    name: 'verification_code'
+                    width: "15%",
+                    name: 'verification_code',
                 },
                 {
                     data: 'status',
-                    name: 'status'
+                    width: "15%",
+                    name: 'status',
+                    render: function ( data, type, row, meta ) {
+                        return `<span class="${data}">${data}</span>`;
+                    }
                 },
                 {
                     data: 'registration_type',
-                    name: 'registration_type'
+                    name: 'registration_type',
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at',
                 },
                 {
                     data: 'actions',

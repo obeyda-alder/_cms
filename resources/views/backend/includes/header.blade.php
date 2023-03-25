@@ -7,6 +7,7 @@
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
       <ul class="navbar-nav navbar-nav-right ml-auto">
+        <li class="nav-item order_count"><i class="icon-bell" id="icon-bell"></i></li>
         @if(count($supported_langs) > 1)
         <li class="nav-item dropdown language-dropdown d-none d-sm-flex align-items-center">
           <a class="nav-link d-flex align-items-center dropdown-toggle" id="LanguageDropdown" href="javascript:;" data-toggle="dropdown" aria-expanded="false">
@@ -41,7 +42,7 @@
                 {{ $_user['email'] ?? 'not found' }}
             </p>
             </div>
-            <a class="dropdown-item" href="javascript:;">
+            <a class="dropdown-item" href="{{ route('users::edit', ['id' => $_user['id'], 'type' => $_user['type'] ]) }}">
               <i class="dropdown-item-icon icon-user text-primary"></i>
               {{ __('base.profile') }}
             </a>

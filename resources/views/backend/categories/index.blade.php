@@ -25,13 +25,17 @@
 <table class="table table-bordered data-table" id="data-table">
     <thead>
         <tr>
-            <th>{{ __('base.categories.table.id') }}</th>
-            <th>{{ __('base.categories.table.name') }}</th>
-            <th>{{ __('base.categories.table.code') }}</th>
-            <th>{{ __('base.categories.table.from_to') }}</th>
-            <th>{{ __('base.categories.table.price') }}</th>
-            <th>{{ __('base.categories.table.status') }}</th>
-            <th>{{ __('base.categories.table.actions') }}</th>
+            <th>{{ __('base.categories.id') }}</th>
+            <th>{{ __('base.categories.name') }}</th>
+            <th>{{ __('base.categories.code') }}</th>
+            <th>{{ __('base.categories.unit_min_limit') }}</th>
+            <th>{{ __('base.categories.unit_max_limit') }}</th>
+            <th>{{ __('base.categories.value_in_price') }}</th>
+            <th>{{ __('base.categories.status') }}</th>
+            <th>{{ __('base.categories.percentage') }}</th>
+            <th>{{ __('base.categories.add_by_user_id') }}</th>
+            <th>{{ __('base.categories.created_at') }}</th>
+            <th>{{ __('base.categories.actions') }}</th>
         </tr>
     </thead>
     <tbody>
@@ -49,7 +53,24 @@
 
 @push('styles')
 <style>
-
+.NOT_ACTIVE{
+    background-color: red;
+    color: #fff;
+    padding: 5px;
+    border-radius: 15px;
+}
+.ACTIVE{
+    background-color: green;
+    color: #fff;
+    padding: 5px;
+    border-radius: 15px;
+}
+.percentage{
+    background-color: #FC2947;
+    color: #fff;
+    padding: 5px 7px ;
+    border-radius: 15px;
+}
 </style>
 @endpush
 @push('scripts')
@@ -75,16 +96,38 @@
                     name: 'code'
                 },
                 {
-                    data: 'from_to',
-                    name: 'from_to'
+                    data: 'unit_min_limit',
+                    name: 'unit_min_limit'
                 },
                 {
-                    data: 'price',
-                    name: 'price'
+                    data: 'unit_max_limit',
+                    name: 'unit_max_limit'
+                },
+                {
+                    data: 'value_in_price',
+                    name: 'value_in_price'
                 },
                 {
                     data: 'status',
-                    name: 'status'
+                    name: 'status',
+                    render: function ( data, type, row, meta ) {
+                        return `<span class="${data}">${data}</span>`
+                    }
+                },
+                {
+                    data: 'percentage',
+                    name: 'percentage',
+                    render: function ( data, type, row, meta ) {
+                        return `<span class="percentage">${data}</span>`
+                    }
+                },
+                {
+                    data: 'add_by_user_id',
+                    name: 'add_by_user_id'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at'
                 },
                 {
                     data: 'actions',

@@ -36,7 +36,3 @@ Breadcrumbs::for('actions', function (BreadcrumbTrail $trail) : void {
 Breadcrumbs::for('categories', function (BreadcrumbTrail $trail) : void {
     $trail->push('categories', route('categories'));
 });
-
-Breadcrumbs::for('units', function (BreadcrumbTrail $trail) : void {
-    $trail->push('units', route('units'));
-});

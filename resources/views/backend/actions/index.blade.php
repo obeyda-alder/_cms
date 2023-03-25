@@ -107,31 +107,11 @@
 @push('scripts')
 <script>
     $(function() {
-        let operation = $('#operations').val();
-
-        if(operation == "CENTRAL_OBSTETRICS"){
-            $('#to_user_id').hide();
-        }else{
-            $('#to_user_id').show();
-        }
-
-        if(operation == "PACKING"){
-            $('#to_user_id').hide();
-            $('#price').hide();
-        }else{
-            $('#to_user_id').show();
-            $('#price').show();
-        }
-
         $('#operations').on('change', function(){
             let val = $(this).val();
             if(val == "CENTRAL_OBSTETRICS"){
                 $('#to_user_id').hide();
-            }else{
-                $('#to_user_id').show();
-            }
-
-            if(val == "PACKING") {
+            }else if(val == "PACKING") {
                 $('#to_user_id').hide();
                 $('#price').hide();
             }else{
@@ -139,6 +119,17 @@
                 $('#price').show();
             }
         })
+
+        let operation = $('#operations').val();
+        if(operation == "CENTRAL_OBSTETRICS"){
+            $('#to_user_id').hide();
+        }else if(operation == "PACKING"){
+                $('#to_user_id').hide();
+                $('#price').hide();
+        }else{
+            $('#to_user_id').show();
+            $('#price').show();
+        }
     });
   </script>
 @endpush

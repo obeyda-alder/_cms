@@ -59,9 +59,14 @@ class UsersController extends Controller
         ];
 
         $data = $this->get(config('custom.api_routes.users.index'), $param);
-
+        if(!$data['success']){
+            return $data;
+        }
         return Datatables::of($data['data'])
-        ->addIndexColumn()
+        // ->addIndexColumn()
+        ->addColumn('image', function ($user) {
+            return $user["image"] ?? '';
+        })
         ->addColumn('name', function ($user) {
             return $user['name'] ?? '';
         })
@@ -85,6 +90,9 @@ class UsersController extends Controller
         })
         ->addColumn('registration_type', function ($user) {
             return $user['registration_type'] ?? '';
+        })
+        ->addColumn('created_at', function ($user) {
+            return $user['created_at'] ?? '';
         })
         ->addColumn('actions', function($user) use($request){
             $actions   = [];
@@ -408,5 +416,9 @@ class UsersController extends Controller
         })
         ->rawColumns([])
         ->make(true);
+    }
+    public function CheckOrder()
+    {
+        return $this->get(config('custom.api_routes.packing.check_orders'));
     }
 }
