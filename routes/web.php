@@ -46,6 +46,15 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => 'loc
             Route::post('soft_delete/{id}', 'UsersController@softDelete')->name('users::soft_delete');
             Route::post('delete/{id}', 'UsersController@delete')->name('users::delete');
             Route::post('restore/{id}', 'UsersController@restore')->name('users::restore');
+
+            Route::get('show-order', 'UsersController@showOrder')->name('show_order');
+            Route::get('packing-order', 'UsersController@PackingOrder')->name('users::packing_order');
+
+            Route::get('units-history', 'UsersController@UnitsHistory')->name('units_history');
+            Route::get('units-history-data', 'UsersController@UnitsHistoryData')->name('users::units_history');
+
+            Route::get('money-history', 'UsersController@MoneyHistory')->name('money_history');
+            Route::get('money-history-data', 'UsersController@MoneyHistoryData')->name('users::money_history');
         });
 
         Route::group(['prefix' => 'actions', 'namespace' => 'Actions'], function(){

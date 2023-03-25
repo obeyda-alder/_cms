@@ -8,13 +8,13 @@
 @endpush
 
 @section('breadcrumbs')
-    {{ Breadcrumbs::render('agencies') }}
+    {{ Breadcrumbs::render('money_history') }}
 @endsection
+
 @section('cms-component')
     <div class="cms-buttons-">
-        <div class="page-title">{{ __('base.agencies.'.strtoupper($agencies_type)) }}</div>
+        <div class="page-title">{{ __('base.money_history.label') }}</div>
         <div class="actions-component">
-            <a class="btn btn-info" href="{{ route('agencies::create', $agencies_type) }}">{{ __('base.agencies.create') }}</a>
             <a class="btn btn-success" href="javascript:;" id="refreshDataTable">{{ __('base.refreshDataTable') }}</a>
         </div>
     </div>
@@ -25,14 +25,14 @@
 <table class="table table-bordered data-table" id="data-table">
     <thead>
         <tr>
-            <th>{{ __('base.agencies.table.id') }}</th>
-            <th>{{ __('base.agencies.table.title') }}</th>
-            <th>{{ __('base.agencies.table.first_name') }}</th>
-            <th>{{ __('base.agencies.table.last_name') }}</th>
-            <th>{{ __('base.agencies.table.phone_number') }}</th>
-            <th>{{ __('base.agencies.table.email') }}</th>
-            <th>{{ __('base.agencies.table.status') }}</th>
-            <th>{{ __('base.agencies.table.actions') }}</th>
+            <th>{{ __('base.money_history.id') }}</th>
+            <th>{{ __('base.money_history.money_code') }}</th>
+            <th>{{ __('base.money_history.transfer_type') }}</th>
+            <th>{{ __('base.money_history.amount') }}</th>
+            <th>{{ __('base.money_history.status') }}</th>
+            <th>{{ __('base.money_history.to_user') }}</th>
+            <th>{{ __('base.money_history.from_user') }}</th>
+            <th>{{ __('base.money_history.created_at') }}</th>
         </tr>
     </thead>
     <tbody>
@@ -50,7 +50,24 @@
 
 @push('styles')
 <style>
-
+.INCREASE{
+    background-color: #57C5B6;
+    color: #fff;
+    padding: 5px;
+    border-radius: 15px;
+}
+.DECREASE{
+    background-color: #159895;
+    color: #fff;
+    padding: 5px;
+    border-radius: 15px;
+}
+.ADD{
+    background-color: #1A5F7A;
+    color: #fff;
+    padding: 5px;
+    border-radius: 15px;
+}
 </style>
 @endpush
 @push('scripts')
@@ -58,11 +75,8 @@
     $(function() {
         $.extend(options, {
             ajax: {
-                url : "{!! route('agencies::data') !!}",
+                url : "{!! route('users::money_history') !!}",
                 method: "GET",
-                data : {
-                    'agencies_type' : "{{$agencies_type}}"
-                },
             },
             columns: [
                 {
@@ -70,38 +84,36 @@
                     name: 'id'
                 },
                 {
-                    data: 'title',
-                    name: 'title'
+                    data: 'money_code',
+                    name: 'money_code'
                 },
                 {
-                    data: 'first_name',
-                    name: 'first_name'
+                    data: 'transfer_type',
+                    name: 'transfer_type'
                 },
                 {
-                    data: 'last_name',
-                    name: 'last_name'
-                },
-                {
-                    data: 'phone_number',
-                    name: 'phone_number'
-                },
-                {
-                    data: 'email',
-                    name: 'email'
+                    data: 'amount',
+                    name: 'amount'
                 },
                 {
                     data: 'status',
-                    name: 'status'
+                    name: 'status',
+                    render: function ( data, type, row, meta ) {
+                        return `<span class="${data}">${data}</span>`
+                    }
                 },
                 {
-                    data: 'actions',
-                    name: 'actions',
-                    searchable: false,
-                    orderable:  false,
-                    render: function ( data, type, row, meta ) {
-                        return dataTableActions(data,type,row,meta);
-                    }
-                }
+                    data: 'to_user',
+                    name: 'to_user'
+                },
+                {
+                    data: 'from_user',
+                    name: 'from_user'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at'
+                },
             ],
         });
         var table = $('.data-table').DataTable(options);

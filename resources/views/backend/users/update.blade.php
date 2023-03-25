@@ -50,10 +50,10 @@
 
             <div class="form-group m-form__group phone_number">
                 <label>
-                    @lang('base.users.phone_number.label')
+                    @lang('base.users.fields.phone_number.label')
                 </label>
                 <div class="input-group">
-                    <input id="search_for_user_input" dir="ltr" type="number" name="phone_number" class="form-control text-left" placeholder="@lang('base.users.phone_number.placeholder')" value="{{  $user['phone_number'] }}">
+                    <input id="search_for_user_input" dir="ltr" type="number" name="phone_number" class="form-control text-left" placeholder="@lang('base.users.fields.phone_number.placeholder')" value="{{  $user['phone_number'] }}">
                     <div class="input-group-prepend w-25" id="phone_country_code_input_group">
                         <select class="btn-group bootstrap-select input-group-btn form-control m-bootstrap-select m_selectpicker" name="phone_country_code" id="phone_country_code"
                         data-live-search="true"
@@ -62,13 +62,13 @@
                         width="400">
                             @foreach($countries as $country)
                             {{-- <img src='{!! $country->flag !!}' width='20' height='16'> --}}
-                            <option value="{{ $country->code }}" data-content="
+                            <option value="{{ $country['code'] }}" data-content="
                                 <div>
-                                    <span class='mx-2' dir='ltr'>{{ $country->code }}</span> ({{ $country->{'name_' .app()->getLocale()} }})
+                                    <span class='mx-2' dir='ltr'>{{ $country['code'] }}</span> ({{ $country['name_'.app()->getLocale()] }})
                                 </div>"
-                                {!! $country->code == old('phone_country_code', '+905') ? 'selected' : '' !!}>
+                                {!! $country['code'] == old('phone_country_code', '+905') ? 'selected' : '' !!}>
                                 <div>
-                                    <span class='mx-2' dir='ltr'>{{ $country->code }}</span> ({{ $country->{'name_' .app()->getLocale()} }})
+                                    <span class='mx-2' dir='ltr'>{{ $country['code'] }}</span> ({{ $country['name_'.app()->getLocale()] }})
                                 </div>
                             </option>
                             @endforeach
@@ -81,7 +81,7 @@
                     </div>
                 @endif
                 <span class="m-form__help">
-                    @lang('base.users.phone_number.help')
+                    @lang('base.users.fields.phone_number.help')
                 </span>
             </div>
 
@@ -124,9 +124,9 @@
                     'help'        => null,
                     'data'        => $countries,
                     'selected'    => old('country_id',  $user['country_id'] ),
-                    'value'       => function($data, $key, $value){ return $value->id; },
-                    'text'        => function($data, $key, $value){ return $value->{'name_'.app()->getLocale()  }; },
-                    'select'      => function($data, $selected, $key, $value){ return $selected == $value->id; },
+                    'value'       => function($data, $key, $value){ return $value['id']; },
+                    'text'        => function($data, $key, $value){ return $value['name_'.app()->getLocale()]; },
+                    'select'      => function($data, $selected, $key, $value){ return $selected == $value['id']; },
                 ]
             ])
             @include('backend.includes.inputs.select', [

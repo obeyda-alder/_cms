@@ -37,10 +37,9 @@
                             'select'      => function($data, $selected, $key, $value){ return $selected == $value['id']; },
                         ]
                     ])
-                    <div class="to_user">
+                    <div id="to_user_id">
                         @include('backend.includes.inputs.select', [
                             'options' => [
-                                'id'          => 'to_user_id',
                                 'nullable'    => false,
                                 'name'        => 'to_user_id',
                                 'label'       => __('base.actions.to_user.label'),
@@ -54,18 +53,19 @@
                             ]
                         ])
                     </div>
-                    @include('backend.includes.inputs.text', [
-                        'options' => [
-                            'id'          => 'price',
-                            'name'        => 'price',
-                            'type'        => 'number',
-                            'step'        => '0.01',
-                            'label'       => __('base.actions.price.label'),
-                            'placeholder' => __('base.actions.price.placeholder'),
-                            'help'        => __('base.actions.price.help'),
-                            'value'       => old('price')
-                        ]
-                    ])
+                    <div id="price">
+                        @include('backend.includes.inputs.text', [
+                            'options' => [
+                                'name'        => 'price',
+                                'type'        => 'number',
+                                'step'        => '0.01',
+                                'label'       => __('base.actions.price.label'),
+                                'placeholder' => __('base.actions.price.placeholder'),
+                                'help'        => __('base.actions.price.help'),
+                                'value'       => old('price')
+                            ]
+                        ])
+                    </div>
                     @include('backend.includes.inputs.text', [
                         'options' => [
                             'id'          => 'unit_value',
@@ -107,11 +107,36 @@
 @push('scripts')
 <script>
     $(function() {
-        $('#operations').click(function(){
-            if($(this).val() != "CENTRAL_OBSTETRICS"){
-                $('.to_user').fadeIn();
+        let operation = $('#operations').val();
+
+        if(operation == "CENTRAL_OBSTETRICS"){
+            $('#to_user_id').hide();
+        }else{
+            $('#to_user_id').show();
+        }
+
+        if(operation == "PACKING"){
+            $('#to_user_id').hide();
+            $('#price').hide();
+        }else{
+            $('#to_user_id').show();
+            $('#price').show();
+        }
+
+        $('#operations').on('change', function(){
+            let val = $(this).val();
+            if(val == "CENTRAL_OBSTETRICS"){
+                $('#to_user_id').hide();
             }else{
-                $('.to_user').fadeOut();
+                $('#to_user_id').show();
+            }
+
+            if(val == "PACKING") {
+                $('#to_user_id').hide();
+                $('#price').hide();
+            }else{
+                $('#to_user_id').show();
+                $('#price').show();
             }
         })
     });

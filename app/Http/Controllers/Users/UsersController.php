@@ -191,12 +191,12 @@ class UsersController extends Controller
             ], 402);
         }
 
-        $user = $this->post(config('custom.api_routes.users.edit').'/'.$id);
+        $user = $this->get(config('custom.api_routes.users.edit').'/'.$id);
         if(!$user['success']){
             return $user;
         }
         return view('backend.users.update', [
-            'user'           => $user,
+            'user'           => $user['data'],
             'countries'      => $this->Country(),
             'defaultImage'   => $this->default('user')
         ]);
@@ -212,54 +212,15 @@ class UsersController extends Controller
                 'description' => __('base.permission_denied.description'),
             ], 402);
         }
-
-        $UpdateUserValidator = [
-            'name'               => 'required|string|max:255',
-            'email'              => 'required|email|unique:users,id,'.$request->user_id,
-            'password'           => 'nullable|string|min:6|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/',
-        ];
-        $validator = Validator::make($request->all(), $UpdateUserValidator);
-        if(!$validator->fails())
-        {
-            try{
-                DB::transaction(function() use ($request) {
-                    $user                   = User::find($request->user_id);
-                    $user->name             = $request->name;
-                    $user->email            = $request->email;
-                    $user->username         = $request->username;
-                    $user->phone_number     = $request->phone_number;
-                    $user->country_id       = $request->country_id;
-                    $user->city_id          = $request->city_id;
-                    $user->municipality_id  = $request->municipality_id;
-                    $user->neighborhood_id  = $request->neighborhood_id;
-                    if($request->has('password') && !is_null($request->password)) {
-                        $user->password  = Hash::make($request->password);
-                    }
-                    $user->save();
-                });
-            }catch (Exception $e){
-                return response()->json([
-                    'success'     => false,
-                    'type'        => 'error',
-                    'title'       => __('base.msg.error_message.title'),
-                    'description' => __('base.msg.error_message.description'),
-                    'errors'      => '['. $e->getMessage() .']'
-                ], 500);
-            }
-        }else {
-            return response()->json([
-                'success'     => false,
-                'type'        => 'error',
-                'title'       => __('base.msg.validation_error.title'),
-                'description' => __('base.msg.validation_error.description'),
-                'errors'      => $validator->getMessageBag()->toArray()
-            ], 402);
+        $user = $this->post(config('custom.api_routes.users.update'), $request->all());
+        if(!$user['success']){
+            return $user;
         }
         return response()->json([
-            'success'       => true,
-            'type'          => 'success',
-            'title'         => __('base.msg.success_message.title'),
-            'description'   => __('base.msg.success_message.description'),
+            'success'     => true,
+            'type'        => 'success',
+            'title'       => __('base.msg.success_message.title'),
+            'description' => __('base.msg.success_message.description'),
             'redirect_url'  => route('users', ['type' => $request->type])
         ], 200);
     }
@@ -331,5 +292,121 @@ class UsersController extends Controller
             'title'       => __('base.msg.success_message.title'),
             'description' => __('base.msg.success_message.description'),
         ], 200);
+    }
+    public function showOrder(Request $request)
+    {
+        return view('backend.users.order');
+    }
+    public function PackingOrder(Request $request)
+    {
+        $order = $this->get(config('custom.api_routes.packing.order'));
+        if(!$order['success']){
+            return $order;
+        }
+        return Datatables::of($order['data'])
+        ->addIndexColumn()
+        ->addColumn('from_user', function ($order) {
+            return $order['order_from_user_id']['name'] ?? '';
+        })
+        ->addColumn('quantity', function ($order) {
+            return $order['quantity'] ?? '';
+        })
+        ->addColumn('order_status', function ($order) {
+            return $order['order_status'] ?? '';
+        })
+        ->addColumn('created_at', function ($order) {
+            return $order['created_at'] ?? '';
+        })
+        ->addColumn('actions', function($order) use($request){
+            $actions   = [];
+            if(in_array($this->userType(), ["ROOT", "ADMIN"]))
+            {
+                $actions[] = [
+                    'id'            => $order['id'],
+                    'label'         => __('base.aproved'),
+                    'type'          => 'icon',
+                    'link'          => route('make_operations', ['type' => 'APPROVAL']),
+                    'method'        => 'POST',
+                    'request_type'  => 'aproved_'.$order['id'],
+                    'class'         => 'aproved-action',
+                    'icon'          => 'fas fa-check'
+                ];
+            }
+            return $actions;
+        })
+        ->rawColumns([])
+        ->make(true);
+    }
+    public function UnitsHistory(Request $request)
+    {
+        return view('backend.users.unit_history');
+    }
+    public function UnitsHistoryData(Request $request)
+    {
+        $unit = $this->get(config('custom.api_routes.history.unit'));
+        if(!$unit['success']){
+            return $unit;
+        }
+        return Datatables::of($unit['data'])
+        ->addIndexColumn()
+        ->addColumn('unit_code', function ($unit) {
+            return $unit['unit_code'] ?? '';
+        })
+        ->addColumn('unit_value', function ($unit) {
+            return $unit['unit_value'] ?? '';
+        })
+        ->addColumn('status', function ($unit) {
+            return $unit['status'] ?? '';
+        })
+        ->addColumn('price', function ($unit) {
+            return $unit['price'] ?? '';
+        })
+        ->addColumn('add_by', function ($unit) {
+            return $unit['user']['name'] ?? '';
+        })
+        ->addColumn('unit_type', function ($unit) {
+            return $unit['unit_type'][0]['type'] ?? '';
+        })
+        ->addColumn('created_at', function ($unit) {
+            return $unit['created_at'] ?? '';
+        })
+        ->rawColumns([])
+        ->make(true);
+    }
+    public function MoneyHistory(Request $request)
+    {
+        return view('backend.users.money_history');
+    }
+    public function MoneyHistoryData(Request $request)
+    {
+        $money = $this->get(config('custom.api_routes.history.money'));
+        if(!$money['success']){
+            return $money;
+        }
+        return Datatables::of($money['data'])
+        ->addIndexColumn()
+        ->addColumn('money_code', function ($money) {
+            return $money['money_code'] ?? '';
+        })
+        ->addColumn('transfer_type', function ($money) {
+            return $money['transfer_type'] ?? '';
+        })
+        ->addColumn('amount', function ($money) {
+            return $money['amount'] ?? '';
+        })
+        ->addColumn('status', function ($money) {
+            return $money['status'] ?? '';
+        })
+        ->addColumn('to_user', function ($money) {
+            return $money['to_user']['name'] ?? '';
+        })
+        ->addColumn('from_user', function ($money) {
+            return $money['from_user']['name'] ?? '';
+        })
+        ->addColumn('created_at', function ($money) {
+            return $money['created_at'] ?? '';
+        })
+        ->rawColumns([])
+        ->make(true);
     }
 }

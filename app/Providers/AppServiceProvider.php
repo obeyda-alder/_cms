@@ -84,8 +84,8 @@ class AppServiceProvider extends ServiceProvider
                     'header'     => __('base.rout_start.categories.label'),
                     'label'      => __('base.rout_start.categories.label'),
                     'link'       => route('categories'),
-                    'icon_class' => 'icon-list',
-                    'ordering'   => 3,
+                    'icon_class' => 'icon-control-pause',
+                    'ordering'   => 7,
                 ]);
 
                 //units
@@ -93,8 +93,26 @@ class AppServiceProvider extends ServiceProvider
                     'header'     => __('base.rout_start.units.label'),
                     'label'      => __('base.rout_start.units.label'),
                     'link'       => route('units'),
-                    'icon_class' => 'icon-list',
+                    'icon_class' => 'icon-link',
                     'ordering'   => 4,
+                ]);
+
+                //units history
+                app()->make('app\Classes\Core')->asideMenu([
+                    'header'     => __('base.rout_start.units_history.label'),
+                    'label'      => __('base.rout_start.units_history.label'),
+                    'link'       => route('units_history'),
+                    'icon_class' => 'fas fa-coins',
+                    'ordering'   => 5,
+                ]);
+
+                //money history
+                app()->make('app\Classes\Core')->asideMenu([
+                    'header'     => __('base.rout_start.money_history.label'),
+                    'label'      => __('base.rout_start.money_history.label'),
+                    'link'       => route('money_history'),
+                    'icon_class' => 'fas fa-wallet',
+                    'ordering'   => 6,
                 ]);
             }
             //actions
@@ -112,9 +130,18 @@ class AppServiceProvider extends ServiceProvider
                 'header'     => __('base.rout_start.actions.label'),
                 'label'      => __('base.rout_start.actions.label'),
                 'link'       => '',
-                'icon_class' => 'icon-user',
+                'icon_class' => 'icon-list',
                 'ordering'   => 2,
                 'items'      => $actions
+            ]);
+
+            // actions
+            app()->make('app\Classes\Core')->asideMenu([
+                'header'     => __('base.rout_start.packing_order.label'),
+                'label'      => __('base.rout_start.packing_order.label'),
+                'link'       => route('show_order'),
+                'icon_class' => 'icon-volume-2',
+                'ordering'   => 3,
             ]);
         });
     }

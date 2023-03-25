@@ -32,5 +32,12 @@ return [
         'operations' => [
             'make'              => config('app.api').'make_operations',
         ],
+        'packing' => [
+            'order'             => config('app.api').'users/u/packing_order',
+        ],
+        'history' => [
+            'unit'              => config('app.api').'users/u/units_history',
+            'money'             => config('app.api').'users/u/money_history',
+        ],
     ]
 ];

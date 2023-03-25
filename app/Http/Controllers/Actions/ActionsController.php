@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Helpers\Helper;
 use App\Helpers\HttpRequests;
 use App\Traits\CmsTrait;
+use \Illuminate\Support\Str;
 
 class ActionsController extends Controller
 {
@@ -21,18 +22,19 @@ class ActionsController extends Controller
     }
     public function index(Request $request, $type)
     {
-        // if(!in_array($this->userType(), ["ROOT", "ADMIN"]))
-        // {
-        //     return response()->json([
-        //         'success'     => false,
-        //         'type'        => 'permission_denied',
-        //         'title'       => __('base.permission_denied.title'),
-        //         'description' => __('base.permission_denied.description'),
-        //     ], 402);
-        // }
+        if(!in_array($this->userType(), ["ADMIN","EMPLOYEE","MASTER_AGENT","SUB_AGENT"]))
+        {
+            return response()->json([
+                'success'     => false,
+                'type'        => 'permission_denied',
+                'title'       => __('base.permission_denied.title'),
+                'description' => __('base.permission_denied.description'),
+            ], 402);
+        }
+
         $actions    = collect($this->actions());
         $operations = $actions->where('relation_type', $type)->first();
-        $all_user   = $this->get(config('custom.api_routes.users.index'), ['type'   => 'EMPLOYEE']); // $operations['user_type']
+        $all_user   = $this->get(config('custom.api_routes.users.index'), ['type'   => Str::after($type, '_TO_')]);
         return view('backend.actions.index', [
             'operations' => $operations,
             'user'       => $this->user(),

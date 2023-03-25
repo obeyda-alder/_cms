@@ -51,12 +51,35 @@
         return actions;
     }
     function replicateConfirmation(subm){
-       $(subm).submit();
+        $(subm).submit();
+
+        // $.confirm({
+        //     title: "{{ __('base.confirm.label') }}",
+        //     content: "{{ __('base.confirm.description') }}",
+        //     type: 'green',
+        //     buttons: {
+        //         ok: {
+        //             text: "{{ __('base.confirm.ok') }}",
+        //             btnClass: 'btn-success',
+        //             keys: ['enter'],
+        //             action: function(){
+        //                 $(subm).submit();
+        //             },
+        //         },
+        //         cancel: {
+        //             text: "{{ __('base.confirm.cancel') }}",
+        //             btnClass: 'btn-success',
+        //             keys: ['enter'],
+        //             action: function(){
+        //                 console.log('cancel');
+        //             }
+        //         }
+        //     }
+        // });
     }
     function OnFormSubmit(ev) {
         ev.preventDefault();
         ev.stopPropagation();
-
         let form   = $(ev.target),
             data   = new FormData(),
             action = form.attr('action'),
@@ -70,67 +93,89 @@
                 }
             });
 
-        $.each(form.serializeArray(), function (key, input) {
-            data.append(input.name, input.value);
-        });
+            $.each(form.serializeArray(), function (key, input) {
+                data.append(input.name, input.value);
+            });
 
-        let = response_type = '',response_title = '',response_description = '';
+            let = response_type = '',response_title = '',response_description = '';
 
-        $.ajax({
-            data        : data,
-            url         : action,
-            type        : method,
-            processData : false,
-            contentType : false,
-            success: function (data) {
-                response_type           = data.type;
-                response_title          = data.title;
-                response_description    = data.description;
-                if($('#data-table').length)
-                {
-                    $('#data-table').DataTable().ajax.reload();
-                }
-                if(data.redirect_url)
-                {
-                    window.location = data.redirect_url;
-                }
+            $.confirm({
+                title: "{{ __('base.confirm.label') }}",
+                content: "{{ __('base.confirm.description') }}",
+                type: method == "POST" ? 'red' : 'green',
+                buttons: {
+                    ok: {
+                        text: "{{ __('base.confirm.ok') }}",
+                        btnClass: method == "POST" ? 'btn-danger' : 'btn-success' ,
+                        keys: ['enter'],
+                        action: function(){
+                            $.ajax({
+                                data        : data,
+                                url         : action,
+                                type        : method,
+                                processData : false,
+                                contentType : false,
+                                success: function (data) {
+                                    response_type           = data.type;
+                                    response_title          = data.title;
+                                    response_description    = data.description;
+                                    if($('#data-table').length)
+                                    {
+                                        $('#data-table').DataTable().ajax.reload();
+                                    }
+                                    if(data.redirect_url)
+                                    {
+                                        window.location = data.redirect_url;
+                                    }
 
-                if(!data.success)
-                {
-                    $('.form-control-feedback').remove();
-                        if(typeof data.errors !== 'undefined')
-                        {
-                            let $data = data.errors;
-                            var error_text = '';
-                            Object.keys($data).forEach((key) => {
-                                error_text = `<div class="form-control-feedback"> ${$data[key][0]}</div>`;
-                                $(`input[name=${key}]`).after( error_text );
-                            })
+                                    if(!data.success)
+                                    {
+                                        $('.form-control-feedback').remove();
+                                            if(typeof data.errors !== 'undefined')
+                                            {
+                                                let $data = data.errors;
+                                                var error_text = '';
+                                                Object.keys($data).forEach((key) => {
+                                                    error_text = `<div class="form-control-feedback"> ${$data[key][0]}</div>`;
+                                                    $(`input[name=${key}]`).after( error_text );
+                                                })
+                                            }
+                                    }
+                                    // $(`.form-control-feedback`).fadeOut(6000);
+                                    show_toastr(response_type, response_title, response_description)
+                                },
+                                error: function (error) {
+                                    if(!error.success)
+                                    {
+                                        $('.form-control-feedback').remove();
+                                            if(typeof error.errors !== 'undefined')
+                                            {
+                                                let $data = error.errors;
+                                                var error_text = '';
+                                                Object.keys($data).forEach((key) => {
+                                                    error_text = `<div class="form-control-feedback"> ${$data[key][0]}</div>`;
+                                                    $(`input[name=${key}]`).after( error_text );
+                                                })
+                                            }
+                                    }
+                                    // $(`.form-control-feedback`).fadeOut(6000);
+                                    response_type           = error.type;
+                                    response_title          = error.title;
+                                    response_description    = error.description;
+                                    show_toastr(response_type, response_title, response_description)
+                                },
+                            });
                         }
-                }
-                // $(`.form-control-feedback`).fadeOut(6000);
-                show_toastr(response_type, response_title, response_description)
-            },
-            error: function (error) {
-                if(!error.success)
-                {
-                    $('.form-control-feedback').remove();
-                        if(typeof error.errors !== 'undefined')
-                        {
-                            let $data = error.errors;
-                            var error_text = '';
-                            Object.keys($data).forEach((key) => {
-                                error_text = `<div class="form-control-feedback"> ${$data[key][0]}</div>`;
-                                $(`input[name=${key}]`).after( error_text );
-                            })
+                    },
+                    cancel: {
+                        text: "{{ __('base.confirm.cancel') }}",
+                        btnClass: method == "POST" ? 'btn-danger' : 'btn-success' ,
+                        keys: ['enter'],
+                        action: function(){
+                            console.log('cancel');
                         }
+                    }
                 }
-                // $(`.form-control-feedback`).fadeOut(6000);
-                response_type           = error.type;
-                response_title          = error.title;
-                response_description    = error.description;
-                show_toastr(response_type, response_title, response_description)
-            },
-        });
+            });
     }
 </script>

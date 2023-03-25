@@ -161,19 +161,24 @@
     .restore-action i,
     .delete-action, i
     .soft-delete-action i,
-    .update-action i {
+    .update-action i ,
+    .aproved-action i{
         font-size: 14px
     }
 
     .restore-action:hover,
     .delete-action:hover,
     .soft-delete-action:hover,
+    .update-action:hover,
     .update-action:hover
     {
         background-color: #fff;
     }
     .restore-action {
         color: #4E6E81;
+    }
+    .aproved-action {
+        color: green;
     }
     .delete-action {
         color: #DF2E38;
@@ -195,5 +200,8 @@
     }
     .update-action:hover {
         color: #b4e4ffd0;
+    }
+    .aproved-action:hover {
+        color: rgba(0, 128, 0, 0.747);
     }
 </style>

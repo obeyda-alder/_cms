@@ -10,6 +10,7 @@ return [
     'cancel'              => 'cancel',
     'restore'             => 'restore',
     'delete'              => 'delete',
+    'aproved'             => 'aproved',
     'select'              => 'select',
     'change'              => 'change',
     'no_data'             => 'No Data To Display',
@@ -18,6 +19,18 @@ return [
     'update'              => 'update',
     'no_data_operations'  => 'This Relationship Has No Operations',
     'refreshDataTable'    => 'Refresh',
+    'confirm' => [
+        'label'       => 'are you sure?',
+        'description' => 'If you are sure, please enter OK',
+        'ok'          => 'ok',
+        'cancel'      => 'cancel',
+    ],
+    'dashboard_statistic' => [
+        'users_count_with_status' => 'Number of users in instances',
+        'packing_order_count_with_status' => 'packing requests with cases',
+        'units' => 'Unit statistics',
+        'money' => 'Money stats',
+    ],
     'rout_start' => [
         'dashboard' => 'Dashboard',
         'users' => [
@@ -31,6 +44,9 @@ return [
                 'SUB_AGENT'       => 'SUB AGENT',
                 'CUSTOMER'        => 'CUSTOMER',
             ],
+        ],
+        'packing_order' => [
+            'label' => 'packing order',
         ],
         'actions' => [
             'label'                    => 'actions',
@@ -51,6 +67,34 @@ return [
         'units' => [
             'label' => 'units',
         ],
+        'units_history' => [
+            'label' => 'units history',
+        ],
+        'money_history' => [
+            'label' => 'money history',
+        ],
+    ],
+    'unit_history' => [
+        'label'      => 'unit history',
+        'id'         => '#',
+        'unit_code'  => 'unit code',
+        'unit_value' => 'unit value',
+        'status'     => 'status',
+        'price'      => 'price',
+        'add_by'     => 'add by',
+        'unit_type'  => 'unit type',
+        'created_at' => 'created at',
+    ],
+    'money_history' => [
+        'label'      => 'money history',
+        'id'         => '#',
+        'unit_code'  => 'money code',
+        'unit_value' => 'transfer type',
+        'status'     => 'amount',
+        'price'      => 'status',
+        'add_by'     => 'to user',
+        'unit_type'  => 'from user',
+        'created_at' => 'created at',
     ],
     'users' => [
         'table' => [
@@ -272,6 +316,16 @@ return [
         'label' => 'neighborhoodes',
         'placeholder' => 'selecct neighborhood',
         'help' => 'neighborhoodes',
+    ],
+    'packing_order' => [
+        'label' => 'packing order',
+        'table' => [
+            'id'            => '#',
+            'from_user'     => 'from user',
+            'quantity'      => 'quantity',
+            'order_status'  => 'order status',
+            'created_at'    => 'created at',
+        ],
     ],
     'categories' => [
         'table' => [

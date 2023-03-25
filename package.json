@@ -14,5 +14,9 @@
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14"
+    },
+    "dependencies": {
+        "bootbox": "^6.0.0",
+        "jquery-confirm": "^3.3.4"
     }
 }
