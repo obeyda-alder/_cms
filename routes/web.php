@@ -75,6 +75,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => 'loc
             Route::post('delete/{id}', 'CategoriesController@delete')->name('categories::delete');
             Route::post('restore/{id}', 'CategoriesController@restore')->name('categories::restore');
         });
+
+
+        Route::group(['prefix' => 'configurations', 'namespace' => 'Configurations'], function(){
+            Route::get('index/{type}', 'ConfigurationsController@index')->name('configurations');
+            Route::get('configurations_data', 'ConfigurationsController@data')->name('configurations::data');
+            Route::post('create', 'ConfigurationsController@create')->name('configurations::create');
+            Route::post('delete', 'ConfigurationsController@delete')->name('configurations::delete');
+        });
     });
 
 });

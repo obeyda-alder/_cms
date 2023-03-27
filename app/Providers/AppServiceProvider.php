@@ -48,7 +48,6 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('backend.includes.main_menu', function($view){
 
-            //dashboard
             app()->make('app\Classes\Core')->asideMenu([
                 'header'     => __('base.rout_start.dashboard'),
                 'label'      => __('base.rout_start.dashboard'),
@@ -59,7 +58,6 @@ class AppServiceProvider extends ServiceProvider
 
             if(in_array($this->userType(), ["ROOT", "ADMIN"]))
             {
-                //users
                 $items = [];
                 foreach(config('custom.users_type') as $key => $user)
                 {
@@ -79,7 +77,6 @@ class AppServiceProvider extends ServiceProvider
                 ]);
 
 
-                //categories
                 app()->make('app\Classes\Core')->asideMenu([
                     'header'     => __('base.rout_start.categories.label'),
                     'label'      => __('base.rout_start.categories.label'),
@@ -88,7 +85,6 @@ class AppServiceProvider extends ServiceProvider
                     'ordering'   => 7,
                 ]);
 
-                //units history
                 app()->make('app\Classes\Core')->asideMenu([
                     'header'     => __('base.rout_start.units_history.label'),
                     'label'      => __('base.rout_start.units_history.label'),
@@ -97,7 +93,6 @@ class AppServiceProvider extends ServiceProvider
                     'ordering'   => 5,
                 ]);
 
-                //money history
                 app()->make('app\Classes\Core')->asideMenu([
                     'header'     => __('base.rout_start.money_history.label'),
                     'label'      => __('base.rout_start.money_history.label'),
@@ -106,7 +101,7 @@ class AppServiceProvider extends ServiceProvider
                     'ordering'   => 6,
                 ]);
             }
-            //actions
+
             $actions = [];
             foreach($this->actions() as $key => $action)
             {
@@ -115,8 +110,6 @@ class AppServiceProvider extends ServiceProvider
                     'link'   => route('actions', ['type' => $action['relation_type']]),
                 ];
             }
-
-            // actions
             app()->make('app\Classes\Core')->asideMenu([
                 'header'     => __('base.rout_start.actions.label'),
                 'label'      => __('base.rout_start.actions.label'),
@@ -126,7 +119,6 @@ class AppServiceProvider extends ServiceProvider
                 'items'      => $actions
             ]);
 
-            // actions
             app()->make('app\Classes\Core')->asideMenu([
                 'header'     => __('base.rout_start.packing_order.label'),
                 'label'      => __('base.rout_start.packing_order.label'),
@@ -134,6 +126,28 @@ class AppServiceProvider extends ServiceProvider
                 'icon_class' => 'icon-volume-2',
                 'ordering'   => 3,
             ]);
+
+
+            if(in_array($this->userType(), ["ROOT"]))
+            {
+                $configurations = [];
+                foreach(["relations_type", "operations", "unit_type", "relation_unit_type_with_operations"] as $key => $config)
+                {
+                    $configurations[] = [
+                        'label'  => __('base.rout_start.configurations.'.$config),
+                        'link'   => route('configurations', ['type' => $config]),
+                    ];
+                }
+
+                app()->make('app\Classes\Core')->asideMenu([
+                    'header'     => __('base.rout_start.configurations.label'),
+                    'label'      => __('base.rout_start.configurations.label'),
+                    'link'       => '',
+                    'icon_class' => 'icon-directions',
+                    'ordering'   => 9999999,
+                    'items'      => $configurations
+                ]);
+            }
         });
     }
 }

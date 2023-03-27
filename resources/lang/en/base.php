@@ -73,6 +73,13 @@ return [
         'money_history' => [
             'label' => 'money history',
         ],
+        'configurations' => [
+            'label'                               => 'Config',
+            'relations_type'                      => 'relations type',
+            'operations'                          => 'operations',
+            'unit_type'                           => 'unit type',
+            'relation_unit_type_with_operations'  => 'Relation unit type run operations',
+        ]
     ],
     'unit_history' => [
         'label'      => 'unit history',
@@ -289,6 +296,32 @@ return [
                 'NOT_ACTIVE' => 'NOT ACTIVE',
                 'ACTIVE'     => 'ACTIVE',
             ],
+        ],
+    ],
+    'configurations' => [
+        'create'                             => 'Create',
+        'relations_type'                     => 'Relations type',
+        'operations'                         => 'Operations',
+        'unit_type'                          => 'Unit type',
+        'relation_unit_type_with_operations' => 'Relation unit type with operations',
+        'table' => [
+            'relation_type'   => 'relation type',
+            'user_type'       => 'user type',
+            'type_en'         => 'type en',
+            'type_ar'         => 'type ar',
+            'relation'        => 'relation',
+            'user_type'       => 'user type',
+            'type'            => 'type',
+            'continued'       => 'continued',
+            'from_unit_type'  => 'from unit type',
+            'from_continued'  => 'from continued',
+            'to_unit_type'    => 'to unit type',
+            'to_continued'    => 'to continued',
+            'operation_en'    => 'operation en',
+            'operation_ar'    => 'operation ar',
+            'relation_type'   => 'relation type',
+            'user_type'       => 'user type',
+            'actions'         => 'actions',
         ],
     ],
 ];

@@ -36,3 +36,9 @@ Breadcrumbs::for('actions', function (BreadcrumbTrail $trail) : void {
 Breadcrumbs::for('categories', function (BreadcrumbTrail $trail) : void {
     $trail->push('categories', route('categories'));
 });
+
+Breadcrumbs::for('configurations', function (BreadcrumbTrail $trail) : void {
+    $configurations = request()->route()->parameter('type');
+    $trail->push('configurations', route('configurations', $configurations));
+    $trail->push( __('base.rout_start.configurations.'.$configurations) , route('configurations', $configurations));
+});

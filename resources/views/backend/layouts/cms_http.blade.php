@@ -35,6 +35,8 @@
                 @include('backend.includes.toaster.toaster')
                 <div class="main-panel">
 
+                    @yield('info')
+
                     @yield('breadcrumbs')
 
 

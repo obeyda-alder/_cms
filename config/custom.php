@@ -49,5 +49,29 @@ return [
             'soft_delete'       => config('app.api').'categories/soft_delete',
             'restore'           => config('app.api').'categories/restore',
         ],
+
+
+
+        //config... relations_type - operations - unit_type - relation_unit_type_with_operations
+        'relations_type' => [
+            'index'  => config('app.api').'relations_type',
+            'create' => config('app.api').'relations_type/create',
+            'delete' => config('app.api').'relations_type/delete',
+        ],
+        'operations' => [
+            'index'  => config('app.api').'operations',
+            'create' => config('app.api').'operations/create',
+            'delete' => config('app.api').'operations/delete',
+        ],
+        'unit_type' => [
+            'index'  => config('app.api').'unit_type',
+            'create' => config('app.api').'unit_type/create',
+            'delete' => config('app.api').'unit_type/delete',
+        ],
+        'relation_unit_type_with_operations' => [
+            'index'  => config('app.api').'relation_unit_type_with_operations',
+            'create' => config('app.api').'relation_unit_type_with_operations/create',
+            'delete' => config('app.api').'relation_unit_type_with_operations/delete',
+        ],
     ]
 ];
