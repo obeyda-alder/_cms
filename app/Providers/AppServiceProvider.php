@@ -100,6 +100,31 @@ class AppServiceProvider extends ServiceProvider
                     'icon_class' => 'fas fa-wallet',
                     'ordering'   => 6,
                 ]);
+
+                $configurations = [];
+                if(in_array($this->userType(), ["ROOT"]))
+                {
+                    foreach(["relations_type", "operations", "unit_type", "relation_unit_type_with_operations"] as $key => $config)
+                    {
+                        $configurations[] = [
+                            'label'  => __('base.rout_start.configurations.'.$config),
+                            'link'   => route('configurations', ['type' => $config]),
+                        ];
+                    }
+                }
+
+                $configurations[] = [
+                    'label'  => __('base.rout_start.configurations.global'),
+                    'link'   => route('global', ['type' => 'currencies']),
+                ];
+                app()->make('app\Classes\Core')->asideMenu([
+                    'header'     => __('base.rout_start.configurations.label'),
+                    'label'      => __('base.rout_start.configurations.label'),
+                    'link'       => '',
+                    'icon_class' => 'icon-directions',
+                    'ordering'   => 9999999,
+                    'items'      => $configurations
+                ]);
             }
 
             $actions = [];
@@ -126,28 +151,6 @@ class AppServiceProvider extends ServiceProvider
                 'icon_class' => 'icon-volume-2',
                 'ordering'   => 3,
             ]);
-
-
-            if(in_array($this->userType(), ["ROOT"]))
-            {
-                $configurations = [];
-                foreach(["relations_type", "operations", "unit_type", "relation_unit_type_with_operations"] as $key => $config)
-                {
-                    $configurations[] = [
-                        'label'  => __('base.rout_start.configurations.'.$config),
-                        'link'   => route('configurations', ['type' => $config]),
-                    ];
-                }
-
-                app()->make('app\Classes\Core')->asideMenu([
-                    'header'     => __('base.rout_start.configurations.label'),
-                    'label'      => __('base.rout_start.configurations.label'),
-                    'link'       => '',
-                    'icon_class' => 'icon-directions',
-                    'ordering'   => 9999999,
-                    'items'      => $configurations
-                ]);
-            }
         });
     }
 }

@@ -18,9 +18,14 @@ class CheckToken
      */
     public function handle(Request $request, Closure $next)
     {
+        // if (! $request->expectsJson()) {
+        //    return redirect()->route('login');// dd(route('login'));
+        // }
+
+        //dd($request->expectsJson());
         // $check_token = $this->post('auth/refresh', [], session()->get('_token'));
         // if(isset($check_token['message']) && $check_token['message'] != 'fail'){
-            return $next($request);
+           return $next($request);
         // }else{
             // session()->flush();
             // return route('dashboard');

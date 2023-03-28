@@ -3,7 +3,7 @@
         @isset($info['icon'])
             <i class="icon {{ $info['icon'] }}"></i>
         @endisset
-        <span class="info"> {{ strtoupper($info['title']) }} </span>
+        <span class="info"> {{ ucfirst($info['title']) }} </span>
     </div>
 @endisset
 

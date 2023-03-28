@@ -78,10 +78,16 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => 'loc
 
 
         Route::group(['prefix' => 'configurations', 'namespace' => 'Configurations'], function(){
+
             Route::get('index/{type}', 'ConfigurationsController@index')->name('configurations');
             Route::get('configurations_data', 'ConfigurationsController@data')->name('configurations::data');
             Route::post('create', 'ConfigurationsController@create')->name('configurations::create');
             Route::post('delete', 'ConfigurationsController@delete')->name('configurations::delete');
+
+            Route::get('global/{type}', 'ConfigurationsController@global')->name('global');
+            Route::get('global_data', 'ConfigurationsController@GlobalData')->name('global::data');
+            Route::post('global_create', 'ConfigurationsController@GlobalCreate')->name('global::create');
+            Route::post('global_delete', 'ConfigurationsController@GlobalDelete')->name('global::delete');
         });
     });
 

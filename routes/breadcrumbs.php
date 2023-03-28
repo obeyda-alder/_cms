@@ -42,3 +42,9 @@ Breadcrumbs::for('configurations', function (BreadcrumbTrail $trail) : void {
     $trail->push('configurations', route('configurations', $configurations));
     $trail->push( __('base.rout_start.configurations.'.$configurations) , route('configurations', $configurations));
 });
+
+Breadcrumbs::for('global', function (BreadcrumbTrail $trail) : void {
+    $global = request()->route()->parameter('type');
+    $trail->push('global', route('global', $global));
+    $trail->push( __('base.rout_start.global.'.$global) , route('global', $global));
+});

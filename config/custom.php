@@ -10,6 +10,13 @@ return [
         'SUB_AGENT',
         'CUSTOMER',
     ],
+    'users_type_validation' => [
+        'ADMIN',
+        'EMPLOYEE',
+        'MASTER_AGENT',
+        'SUB_AGENT',
+        'CUSTOMER',
+    ],
     'api_routes' => [
         'login'                 => config('app.api').'auth/login',
         'refresh'               => config('app.api').'auth/refresh',
@@ -53,25 +60,31 @@ return [
 
 
         //config... relations_type - operations - unit_type - relation_unit_type_with_operations
-        'relations_type' => [
-            'index'  => config('app.api').'relations_type',
-            'create' => config('app.api').'relations_type/create',
-            'delete' => config('app.api').'relations_type/delete',
-        ],
-        'operations' => [
-            'index'  => config('app.api').'operations',
-            'create' => config('app.api').'operations/create',
-            'delete' => config('app.api').'operations/delete',
-        ],
-        'unit_type' => [
-            'index'  => config('app.api').'unit_type',
-            'create' => config('app.api').'unit_type/create',
-            'delete' => config('app.api').'unit_type/delete',
-        ],
-        'relation_unit_type_with_operations' => [
-            'index'  => config('app.api').'relation_unit_type_with_operations',
-            'create' => config('app.api').'relation_unit_type_with_operations/create',
-            'delete' => config('app.api').'relation_unit_type_with_operations/delete',
+        'config' => [
+            'global' => [
+                'index'          => config('app.api').'config',
+                'create'         => config('app.api').'config/create',
+            ],
+            'relations_type' => [
+                'index'  => config('app.api').'relations_type',
+                'create' => config('app.api').'relations_type/create',
+                'delete' => config('app.api').'relations_type/delete',
+            ],
+            'operations' => [
+                'index'  => config('app.api').'operations',
+                'create' => config('app.api').'operations/create',
+                'delete' => config('app.api').'operations/delete',
+            ],
+            'unit_type' => [
+                'index'  => config('app.api').'unit_type',
+                'create' => config('app.api').'unit_type/create',
+                'delete' => config('app.api').'unit_type/delete',
+            ],
+            'relation_unit_type_with_operations' => [
+                'index'  => config('app.api').'relation_unit_type_with_operations',
+                'create' => config('app.api').'relation_unit_type_with_operations/create',
+                'delete' => config('app.api').'relation_unit_type_with_operations/delete',
+            ],
         ],
     ]
 ];
