@@ -71,7 +71,7 @@ class UsersController extends Controller
             return $user['name'] ?? '';
         })
         ->addColumn('type', function ($user) {
-            return $user['type'] ?? '';
+            return __('base.rout_start.users.types.'.$user['type']) ?? '';
         })
         ->addColumn('username', function ($user) {
             return $user['username'] ?? '';
@@ -417,8 +417,49 @@ class UsersController extends Controller
         ->rawColumns([])
         ->make(true);
     }
+    public function UnitsMovement(Request $request)
+    {
+        return view('backend.users.units_movement');
+    }
+    public function UnitsMovementDate(Request $request)
+    {
+        $movement = $this->get(config('custom.api_routes.history.movement'));
+        if(!$movement['success']){
+            return $movement;
+        }
+        return Datatables::of($movement['data'])
+        ->addIndexColumn()
+        ->addColumn('unit_code', function ($movement) {
+            return $movement['unit_code'] ?? '';
+        })
+        ->addColumn('transfer_type', function ($movement) {
+            return $movement['transfer_type'] ?? '';
+        })
+        ->addColumn('quantity', function ($movement) {
+            return $movement['quantity'] ?? '';
+        })
+        ->addColumn('status', function ($movement) {
+            return $movement['status'] ?? '';
+        })
+        ->addColumn('to_user', function ($movement) {
+            return $movement['to_user']['name'] ?? '';
+        })
+        ->addColumn('from_user', function ($movement) {
+            return $movement['from_user']['name'] ?? '';
+        })
+        ->addColumn('created_at', function ($movement) {
+            return $movement['created_at'] ?? '';
+        })
+        ->rawColumns([])
+        ->make(true);
+    }
     public function CheckOrder()
     {
         return $this->get(config('custom.api_routes.packing.check_orders'));
+    }
+    public function RefreshData()
+    {
+       $user = $this->get(config('custom.api_routes.packing.refresh_data'));
+       return session()->put('_user', $user);
     }
 }

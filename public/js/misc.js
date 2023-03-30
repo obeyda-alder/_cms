@@ -12,22 +12,27 @@
     var current = location.pathname.split("/").slice(-1)[0].replace(/^\/|\/$/g, '');
     var currentUrl = window.location.href;
     function addActiveClass(element) {
-        if (element.attr('href') == currentUrl) {
-          element.parents('.nav-item').last().addClass('active');
-          if (element.parents('.sub-menu').length) {
-            element.closest('.collapse').addClass('show');
-            element.addClass('active');
-          }
-        }else{
-            element.parents('.nav-item').last().removeClass('active');
-            if (element.parents('.sub-menu').length) {
-              element.closest('.collapse').removeClass('show');
-              element.removeClass('active');
-            }
-            if (element.parents('.submenu-item').length) {
-              element.addClass('active');
-            }
+      if (element.attr('href') == currentUrl) {
+          element.closest('.collapse').addClass('show');
+          element.addClass('active');
+          element.parents('.nav-item').addClass('active');
+
+
+          // if (element.parents('.sub-menu').length) {
+          //   element.closest('.collapse').addClass('show');
+          //   element.addClass('active');
+          // }
         }
+        // else{
+        //     element.parents('.nav-item').last().removeClass('active');
+        //     if (element.parents('.sub-menu').length) {
+        //       element.closest('.collapse').removeClass('show');
+        //       element.removeClass('active');
+        //     }
+        //     if (element.parents('.submenu-item').length) {
+        //       element.addClass('active');
+        //     }
+        // }
     }
 
     $('.nav li a', sidebar).each(function() {

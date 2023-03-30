@@ -6,8 +6,37 @@
       <a class="navbar-brand brand-logo-mini" href="javascript:;"><img src="{{ asset('images/faces/money-transfer-icon-16.jpg') }}" alt="logo" /></a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
+        <div class="header-statistic d-flex">
+            @if ($_user['unit'])
+                <div class="units">{{ __('base.header_statistic.units_statistic') }} : {{ $_user['unit']['unit_count'] }}</div>
+            @endif
+            @if ($_user['money'])
+                <div class="money">
+                    <div class="dropdown">
+                        <button class="dropbtn">{{ __('base.header_statistic.money_statistic') }}</button>
+                        <div class="dropdown-content">
+                            @foreach ($_user['money'] as $item)
+                                <p class="money_stat">{{ $item['config_currency']['currency'] }} : {{ $item['amount'] }}</p>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endif
+            @if ($_user['user_units'])
+                <div class="user_units">
+                    <div class="dropdown">
+                        <button class="dropbtn">{{__('base.header_statistic.unit_type_statistic') }}</button>
+                        <div class="dropdown-content">
+                            @foreach ($_user['user_units'] as $key => $item)
+                                <p class="user_units_stat">{{ __('base.unit_type.'.$_user['type_unit_type'][$key]['type']) }} : {{ $item['unit_type_safe']['unit_type_count'] }}</p>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endif
+        </div>
       <ul class="navbar-nav navbar-nav-right ml-auto">
-        <li class="nav-item order_count"><i class="icon-bell" id="icon-bell"></i></li>
+        <li class="nav-item order_count"><a href="{{ route('show_order') }}"><i class="icon-bell" id="icon-bell"></i></a></li>
         @if(count($supported_langs) > 1)
         <li class="nav-item dropdown language-dropdown d-none d-sm-flex align-items-center">
           <a class="nav-link d-flex align-items-center dropdown-toggle" id="LanguageDropdown" href="javascript:;" data-toggle="dropdown" aria-expanded="false">
@@ -18,7 +47,8 @@
           </a>
           <div class="dropdown-menu dropdown-menu-left navbar-dropdown py-2" aria-labelledby="LanguageDropdown">
             @foreach($supported_langs as $lang_code => $lang)
-                <a href="{!! LaravelLocalization::getLocalizedURL($lang_code, request()->fullUrl(), []) !!}" class="dropdown-item m-nav__link{!! ( $lang_code == $current_lang ) ? ' m-nav__link--active' : '' !!}">
+            {{-- {!! LaravelLocalization::getLocalizedURL($lang_code, request()->fullUrl(), []) !!}   {!! route('configurations::config::trans', $lang_code) !!} --}}
+                <a href="{!! LaravelLocalization::getLocalizedURL($lang_code, request()->fullUrl(), [], true) !!}" class="dropdown-item m-nav__link{!! ( $lang_code == $current_lang ) ? ' m-nav__link--active' : '' !!}">
                     <img class="flag-icon m-2 flag-icon-{{$lang_code}}" src="{!! asset('images/flags/'.$lang_code.'.svg') !!}" />
                      {{ $lang['native'] }}
                 </a>

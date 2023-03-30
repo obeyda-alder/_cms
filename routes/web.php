@@ -56,7 +56,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => 'loc
             Route::get('money-history', 'UsersController@MoneyHistory')->name('money_history');
             Route::get('money-history-data', 'UsersController@MoneyHistoryData')->name('users::money_history');
 
+            Route::get('unit-movement', 'UsersController@UnitsMovement')->name('unit_movement');
+            Route::get('unit-movement-data', 'UsersController@UnitsMovementDate')->name('users::unit_movement');
+
             Route::get('check_order', 'UsersController@CheckOrder')->name('check_order');
+            Route::get('refresh_data', 'UsersController@RefreshData')->name('refresh_data');
         });
 
         Route::group(['prefix' => 'actions', 'namespace' => 'Actions'], function(){
@@ -79,6 +83,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => 'loc
 
         Route::group(['prefix' => 'configurations', 'namespace' => 'Configurations'], function(){
 
+            Route::get('categories_config_trans/{lang}', 'ConfigurationsController@config')->name('configurations::config::trans');
+
             Route::get('index/{type}', 'ConfigurationsController@index')->name('configurations');
             Route::get('configurations_data', 'ConfigurationsController@data')->name('configurations::data');
             Route::post('create', 'ConfigurationsController@create')->name('configurations::create');
@@ -88,6 +94,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => 'loc
             Route::get('global_data', 'ConfigurationsController@GlobalData')->name('global::data');
             Route::post('global_create', 'ConfigurationsController@GlobalCreate')->name('global::create');
             Route::post('global_delete', 'ConfigurationsController@GlobalDelete')->name('global::delete');
+
+            Route::get('get_flag', 'ConfigurationsController@get_flag')->name('global::get_flag');
         });
     });
 

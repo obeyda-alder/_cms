@@ -101,5 +101,34 @@ return [
                 'help' => 'select to unit type in user type',
             ],
         ],
+        'currencies' => [
+            'currency' => [
+                'label' => 'Currency',
+                'placeholder' => 'Currency',
+                'help' => 'Currency',
+            ],
+            'name' => [
+                'label' => 'Country Name',
+                'placeholder' => 'Country Name',
+                'help' => 'Country Name',
+            ],
+            'price' => [
+                'label' => 'Price',
+                'placeholder' => 'Price',
+                'help' => 'Price',
+            ],
+        ],
+    ],
+    'global' => [
+        'create'          => 'create',
+        'currencies'      => 'currencies',
+        'table' => [
+            'flag'        => 'Flag',
+            'name'        => 'Name',
+            'currency'    => 'Currency',
+            'price'       => 'Price',
+            'created_at'  => 'Created At',
+            'actions'     => 'Actions'
+        ],
     ],
 ];

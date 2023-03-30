@@ -35,11 +35,13 @@ class ActionsController extends Controller
         $actions    = collect($this->actions());
         $operations = $actions->where('relation_type', $type)->first();
         $all_user   = $this->get(config('custom.api_routes.users.index'), ['type'   => Str::after($type, '_TO_')]);
+        $currencies  = $this->get(config('custom.api_routes.config.global.index'), ['type' => 'currencies']);
         return view('backend.actions.index', [
             'operations' => $operations,
             'user'       => $this->user(),
             'all_user'   => $all_user,
-            'type'       => $type
+            'type'       => $type,
+            'currencies' => $currencies['data']
         ]);
     }
     public function make_operations(Request $request)

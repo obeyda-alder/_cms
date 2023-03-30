@@ -26,6 +26,17 @@
                 console.log(error)
             },
         });
+
+        $.ajax({
+            url: "{!! route('refresh_data') !!}",
+            method: 'GET',
+            success: function(success) {
+                console.log(success);
+            },
+            error: function(error) {
+                console.log(error)
+            },
+        });
     });
 
     const lengthMenu = [[5,10, 25, 50, 200, 400, 1000, 2000, -1], [5,10, 25, 50, 200, 400, 1000, 'All']];

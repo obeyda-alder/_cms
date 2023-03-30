@@ -20,11 +20,15 @@ Breadcrumbs::for('orders', function (BreadcrumbTrail $trail) : void {
 });
 
 Breadcrumbs::for('unit_history', function (BreadcrumbTrail $trail) : void {
-    $trail->push('unit_history', route('units_history'));
+    $trail->push( __('base.rout_start.units_history.label'), route('units_history'));
 });
 
 Breadcrumbs::for('money_history', function (BreadcrumbTrail $trail) : void {
-    $trail->push('money_history', route('money_history'));
+    $trail->push(__('base.rout_start.money_history.label'), route('money_history'));
+});
+
+Breadcrumbs::for('unit_movement', function (BreadcrumbTrail $trail) : void {
+    $trail->push(__('base.rout_start.units_movement.label'), route('unit_movement'));
 });
 
 Breadcrumbs::for('actions', function (BreadcrumbTrail $trail) : void {

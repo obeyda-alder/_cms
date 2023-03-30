@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller;
 
 class BaseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if(session()->get('login') == 'logged_in_successfully'){
             return view('backend.dashboard.dashboard');

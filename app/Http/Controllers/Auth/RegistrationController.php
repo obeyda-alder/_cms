@@ -51,7 +51,9 @@ class RegistrationController extends Controller
                 'login'              => 'logged_in_successfully',
                 '_token'             => $conn['data']['access_token'],
                 'expires_token_in'   => $conn['data']['expires_in'],
-                '_user'               => $conn['data']['user'],
+                '_user'              => $conn['data']['user'],
+                'current_lang'       => 'en',
+                'lang_direction'     => 'ltr',
             ]);
 
             return redirect()->route('dashboard');

@@ -74,6 +74,12 @@ return [
         'money_history' => [
             'label' => 'money history',
         ],
+        'units_movement' => [
+            'label' => 'units movement',
+        ],
+        'global' => [
+            'currencies' => 'currencies',
+        ],
         'configurations' => [
             'global'                              => 'config',
             'label'                               => 'Config',
@@ -100,6 +106,18 @@ return [
         'money_code'    => 'money code',
         'transfer_type' => 'transfer type',
         'amount'        => 'amount',
+        'status'        => 'status',
+        'to_user'       => 'to user',
+        'from_user'     => 'from user',
+        'created_at'    => 'created at',
+    ],
+    'units_movement' => [
+        'label'         => 'units movement',
+        'id'            => '#',
+        'id'            => '#',
+        'money_code'    => 'money code',
+        'transfer_type' => 'transfer type',
+        'quantity'      => 'quantity',
         'status'        => 'status',
         'to_user'       => 'to user',
         'from_user'     => 'from user',
@@ -191,24 +209,24 @@ return [
     ],
     'actions' => [
         'operations' => [
-            'label'        => 'operations',
-            'placeholder'  => 'operations',
-            'help'         => 'operations',
+            'label'        => 'Operations',
+            'placeholder'  => 'Operations',
+            'help'         => 'Operations',
         ],
         'to_user' => [
-            'label'        => 'to_user',
-            'placeholder'  => 'to_user',
-            'help'         => 'to_user',
+            'label'        => 'To user',
+            'placeholder'  => 'To user',
+            'help'         => 'To user',
         ],
-        'price' => [
-            'label'        => 'price',
-            'placeholder'  => 'price',
-            'help'         => 'price',
+        'currencies' => [
+            'label'        => 'select currency',
+            'placeholder'  => 'select currency',
+            'help'         => 'select currency',
         ],
         'unit_value' => [
-            'label'        => 'unit_value',
-            'placeholder'  => 'unit_value',
-            'help'         => 'unit_value',
+            'label'        => 'Unit Value',
+            'placeholder'  => 'Unit Value',
+            'help'         => 'Unit Value',
         ],
         'label' => 'actions',
         'ADMIN_TO_EMPLOYEE'     => 'ADMIN TO EMPLOYEE',
@@ -300,4 +318,16 @@ return [
             ],
         ],
     ],
+    'header_statistic' => [
+        'units_statistic'     => 'units',
+        'money_statistic'     => 'money',
+        'unit_type_statistic' => 'unit type count',
+    ],
+    'unit_type' => [
+        'GENERATED_UNIT'                            => 'GENERATED UNIT',
+        'THE_UNIT_IS_IDLE'                          => 'UNIT IS IDLE',
+        'COMPANY_RESTRICTED_UNIT_WITH_VENDOR'       => 'COMPANY RESTRICTED UNIT VENDOR',
+        'COMPANY_RESTRICTED_UNIT_WITH_MASTER_AGENT' => 'COMPANY RESTRICTED UNIT MASTER AGENT',
+        'THE_UNIT_IS_INDEPENDENT'                   => 'UNIT IS INDEPENDENT'
+    ]
 ];

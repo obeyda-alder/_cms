@@ -42,10 +42,12 @@ return [
         'packing' => [
             'order'             => config('app.api').'users/u/packing_order',
             'check_orders'      => config('app.api').'users/u/check_orders',
+            'refresh_data'      => config('app.api').'users/u/refresh_data',
         ],
         'history' => [
             'unit'              => config('app.api').'users/u/units_history',
             'money'             => config('app.api').'users/u/money_history',
+            'movement'          => config('app.api').'users/u/index_movement',
         ],
         'categories'   => [
             'index'             => config('app.api').'categories',
@@ -64,6 +66,7 @@ return [
             'global' => [
                 'index'          => config('app.api').'config',
                 'create'         => config('app.api').'config/create',
+                'delete'         => config('app.api').'config/delete',
             ],
             'relations_type' => [
                 'index'  => config('app.api').'relations_type',

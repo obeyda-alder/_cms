@@ -53,16 +53,19 @@
                             ]
                         ])
                     </div>
-                    <div id="price">
-                        @include('backend.includes.inputs.text', [
+                    <div id="currencies">
+                        @include('backend.includes.inputs.select', [
                             'options' => [
-                                'name'        => 'price',
-                                'type'        => 'number',
-                                'step'        => '0.01',
-                                'label'       => __('base.actions.price.label'),
-                                'placeholder' => __('base.actions.price.placeholder'),
-                                'help'        => __('base.actions.price.help'),
-                                'value'       => old('price')
+                                'nullable'    => false,
+                                'name'        => 'currencies',
+                                'label'       => __('base.actions.currencies.label'),
+                                'placeholder' => __('base.actions.currencies.placeholder'),
+                                'help'        => __('base.actions.currencies.help'),
+                                'data'        => $currencies,
+                                'selected'    => old('currencies'),
+                                'value'       => function($data, $key, $value){ return $value['id']; },
+                                'text'        => function($data, $key, $value){ return $value['currency']; },
+                                'select'      => function($data, $selected, $key, $value){ return $selected == $value['id']; },
                             ]
                         ])
                     </div>
@@ -113,10 +116,10 @@
                 $('#to_user_id').hide();
             }else if(val == "PACKING") {
                 $('#to_user_id').hide();
-                $('#price').hide();
+                $('#currencies').hide();
             }else{
                 $('#to_user_id').show();
-                $('#price').show();
+                $('#currencies').show();
             }
         })
 
@@ -125,10 +128,10 @@
             $('#to_user_id').hide();
         }else if(operation == "PACKING"){
                 $('#to_user_id').hide();
-                $('#price').hide();
+                $('#currencies').hide();
         }else{
             $('#to_user_id').show();
-            $('#price').show();
+            $('#currencies').show();
         }
     });
   </script>

@@ -62,7 +62,7 @@
         margin-top: 70px;
     }
     .footer{
-        margin-top: 100px;
+        margin: auto 0 0 0 ;
         bottom: 0;
         width: 100%;
     }
@@ -224,6 +224,10 @@
     .order_count{
         position: relative;
     }
+    .order_count a:hover{
+        color: #fff !important;
+
+    }
     .order_count span{
         position: absolute;
         z-index: 99999999;
@@ -238,6 +242,67 @@
         justify-content: center;
         align-items: center;
         font-weight: 900;
+    }
+    .header-statistic{
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+        align-items: center;
+        margin: 0 25px;
+    }
+    .header-statistic .units,
+    .header-statistic .money .dropbtn,
+    .header-statistic .user_units .dropbtn{
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 7px;
+        border: 2px solid #FC2947;
+        color: #FC2947;
+        font-weight: 500;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        transition: .2s all ease-in;
+        cursor: pointer;
+        margin: 0 5px;
+    }
+    .header-statistic .units:hover,
+    .header-statistic .money .dropdown:hover .dropbtn,
+    .header-statistic .user_units .dropdown:hover .dropbtn{
+        background-color: #FC2947;
+        border: 2px solid #fff;
+        color: #fff;
+    }
+    .header-statistic .money .dropdown:hover .dropdown-content,
+    .header-statistic .user_units .dropdown:hover .dropdown-content {
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        color: #252525;
+        background-color: #F6F6F6;
+        width: min-content;
+        border-radius: 15px;
+        font-weight: 500;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+    }
+    .header-statistic .money .dropdown ,
+    .header-statistic .user_units .dropdown{
+        position: relative;
+        display: inline-block;
+    }
+    .header-statistic .money .dropdown-content,
+    .header-statistic .user_units .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: max-content;
+        z-index: 1;
+    }
+    .header-statistic .money .dropdown-content a,
+    .header-statistic .user_units .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
     }
     @-webkit-keyframes ring {
         0% { -webkit-transform: rotateZ(0); }

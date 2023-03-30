@@ -11,11 +11,21 @@ use Illuminate\Support\MessageBag;
 use DataTables;
 use Facade\FlareClient\View;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\App;
 
 class ConfigurationsController extends BaseController
 {
     use CmsTrait, Helper, HttpRequests;
 
+    public function config(Request $request, $lang)
+    {
+        App::setLocale($lang);
+        session()->put('current_lang', $lang);
+        if($lang == "ar"){
+            session()->put('lang_direction', 'rtl');
+        }
+        return redirect()->route('dashboard');
+    }
     public function index(Request $request, $type)
     {
         if(!in_array($this->userType(), ["ROOT"]))
@@ -243,7 +253,6 @@ class ConfigurationsController extends BaseController
             'description' => __('base.msg.success_message.description'),
         ], 200);
     }
-
     public function global(Request $request, $type)
     {
         if(!in_array($this->userType(), ["ROOT", "ADMIN"]))
@@ -255,12 +264,13 @@ class ConfigurationsController extends BaseController
                 'description' => __('base.permission_denied.description'),
             ], 500);
         }
-        $global = $this->get(config('custom.api_routes.config.global.index'), ['type' => $type]);
+        $global  = $this->get(config('custom.api_routes.config.global.index'), ['type' => $type]);
+        $country = collect($this->Country());
 
         return view('backend.configurations.global', [
             'type'           => $type,
             'global'         => $global['data'],
-            'currency'       => $this->Country()
+            'currency'       => $country->where('currency', '!=', '₧')
         ]);
     }
     public function GlobalData(Request $request)
@@ -285,8 +295,8 @@ class ConfigurationsController extends BaseController
         }
         if($request->type == "currencies"){
             return  Datatables::of($global['data'])
-            ->addColumn('type', function ($global) {
-                return $global['type'] ?? '';
+            ->addColumn('flag', function ($global) {
+                return '<img class="cur_flag" src="'.$global['flag'].'" />' ?? '';
             })
             ->addColumn('name', function ($global) {
                 return $global['name'] ?? '';
@@ -314,7 +324,7 @@ class ConfigurationsController extends BaseController
                 ];
                 return $actions;
             })
-            ->rawColumns([])
+            ->rawColumns(['flag'])
             ->make(true);
         }
     }
@@ -329,11 +339,11 @@ class ConfigurationsController extends BaseController
                 'description' => __('base.permission_denied.description'),
             ], 500);
         }
+
         $data = [];
         if ($request->type == "currencies"){
             $data['type']         = $request->type;
-            $data['name']         = $request->name;
-            $data['currency']     = $request->currency;
+            $data['currency_id']  = $request->currency;
             $data['price']        = $request->price;
         }
 
@@ -342,10 +352,11 @@ class ConfigurationsController extends BaseController
             return $global;
         }
         return response()->json([
-            'success'     => true,
-            'type'        => 'success',
-            'title'       => __('base.msg.success_message.title'),
-            'description' => __('base.msg.success_message.description'),
+            'success'      => true,
+            'type'         => 'success',
+            'title'        => __('base.msg.success_message.title'),
+            'description'  => __('base.msg.success_message.description'),
+            'redirect_url' => route('global', ['type' => $request->type])
         ], 200);
     }
     public function GlobalDelete(Request $request)
@@ -365,10 +376,16 @@ class ConfigurationsController extends BaseController
             return $global;
         }
         return response()->json([
-            'success'     => true,
-            'type'        => 'success',
-            'title'       => __('base.msg.success_message.title'),
-            'description' => __('base.msg.success_message.description'),
+            'success'      => true,
+            'type'         => 'success',
+            'title'        => __('base.msg.success_message.title'),
+            'description'  => __('base.msg.success_message.description'),
+            'redirect_url' => route('global', ['type' => $request->type])
         ], 200);
+    }
+    public function get_flag(Request $request)
+    {
+        $country = collect($this->Country());
+        return $country->where('id', $request->cur_id)->first();
     }
 }

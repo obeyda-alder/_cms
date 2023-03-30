@@ -27,7 +27,7 @@
     <thead>
         <tr>
             @if ($type == "currencies")
-                <th>{{ __('config.global.table.type') }}</th>
+                <th>{{ __('config.global.table.flag') }}</th>
                 <th>{{ __('config.global.table.name') }}</th>
                 <th>{{ __('config.global.table.currency') }}</th>
                 <th>{{ __('config.global.table.price') }}</th>
@@ -56,21 +56,27 @@
                         <div class="col-md-12">
                             @if ($type == "currencies")
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        {{-- {{dd($currency)}} --}}
-                                        @include('backend.includes.inputs.select', [
-                                            'options' => [
-                                                'id'          => 'currency',
-                                                'name'        => 'currency',
-                                                'label'       => __('config.model.currencies.currency.label'),
-                                                'placeholder' => __('config.model.currencies.currency.placeholder'),
-                                                'data'        => $currency,
-                                                'selected'    => old('currency'),
-                                                'value'       => function($data, $key, $value){ return $value['id']; },
-                                                'text'        => function($data, $key, $value){ return  $value['currency']; },
-                                                'select'      => function($data, $selected, $key, $value){ return $selected == $value['id']; },
-                                            ]
-                                        ])
+                                    <div class="col-md-12 d-flex">
+                                        <div class="col-md-2">
+                                            <img id="currency_icon" src="{{ $currency[222]['currency_icon'] }}" alt="" />
+                                        </div>
+                                        <div class="col-md-10">
+                                            @include('backend.includes.inputs.select', [
+                                                'options' => [
+                                                    'id'          => 'currency',
+                                                    'name'        => 'currency',
+                                                    'label'       => __('config.model.currencies.currency.label'),
+                                                    'placeholder' => __('config.model.currencies.currency.placeholder'),
+                                                    'data'        => $currency,
+                                                    'selected'    => old('currency'),
+                                                    'value'       => function($data, $key, $value){ return $value['id']; },
+                                                    'text'        => function($data, $key, $value){ return  $value['currency'] . ' - ' . $value['name_'.app()->getLocale()]; },
+                                                    // 'image'       => function($data, $key, $value){ return  $value['currency_icon']; },
+                                                    'sub_text'    => function($data, $key, $value){ return  $value['name_'.app()->getLocale()]; },
+                                                    'select'      => function($data, $selected, $key, $value){ return $selected ? $selected == $value['id'] : 223 == $value['id']; },
+                                                ]
+                                            ])
+                                        </div>
                                     </div>
                                     <div class="col-md-12">
                                         @include('backend.includes.inputs.text', [
@@ -79,7 +85,8 @@
                                                 'name'        => 'name',
                                                 'label'       => __('config.model.currencies.name.label'),
                                                 'placeholder' => __('config.model.currencies.name.placeholder'),
-                                                'value'       => 'name',
+                                                'value'       => old('name', 'Turkey'),
+                                                'disabled'    => true
                                             ]
                                         ])
                                     </div>
@@ -127,6 +134,13 @@
     .modal-dialog {
         max-width: 700px;
     }
+    #currency_icon {
+        border-radius: 37%;
+        padding: 15px;
+    }
+    .cur_flag{
+        border-radius: unset !important
+    }
 </style>
 @endpush
 @push('scripts')
@@ -141,44 +155,24 @@
             columns: [
                 @if ($type == "currencies")
                     {
-                        data: 'relation_type',
-                        name: 'relation_type',
+                        data: 'flag',
+                        name: 'flag',
                     },
                     {
-                        data: 'user_type',
-                        name: 'user_type',
+                        data: 'name',
+                        name: 'name',
                     },
                     {
-                        data: 'relation_type',
-                        name: 'relation_type',
+                        data: 'currency',
+                        name: 'currency',
                     },
                     {
-                        data: 'user_type',
-                        name: 'user_type',
+                        data: 'price',
+                        name: 'price',
                     },
                     {
-                        data: 'operation_en',
-                        name: 'operation_en',
-                    },
-                    {
-                        data: 'operation_ar',
-                        name: 'operation_ar',
-                    },
-                    {
-                        data: 'from_unit_type',
-                        name: 'from_unit_type',
-                    },
-                    {
-                        data: 'from_continued',
-                        name: 'from_continued',
-                    },
-                    {
-                        data: 'to_unit_type',
-                        name: 'to_unit_type',
-                    },
-                    {
-                        data: 'to_continued',
-                        name: 'to_continued',
+                        data: 'created_at',
+                        name: 'created_at',
                     },
                 @endif
                 {
@@ -195,6 +189,29 @@
         var table = $('.data-table').DataTable(options);
         $("#refreshDataTable").on("click", function (e) {
             e.preventDefault(), table.ajax.reload();
+        });
+    });
+
+    var selected_side_dishes = [];
+    $('[name="currency"]').on('change', function () {
+        $.each($(this)[0].options, function(i, e) {
+            if(e.selected && $.inArray(e.value, selected_side_dishes) == -1){
+
+                $.ajax({
+                    data        : {
+                        cur_id : e.value,
+                    },
+                    url         : "{!! route('global::get_flag') !!}",
+                    type        : "GET",
+                    success: function (data) {
+                        $('#currency_icon').attr('src', data['currency_icon']); //e.attributes['data-image']['value']
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+                $('#name').val(e.attributes['data-subtext']['value']);
+            }
         });
     });
   </script>

@@ -19,10 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \View::share('current_lang', \LaravelLocalization::getCurrentLocale());
-        \View::share('supported_langs', \LaravelLocalization::getLocalesOrder());
-        \View::share('lang_name', \LaravelLocalization::getCurrentLocaleName());
-        \View::share('lang_direction', \LaravelLocalization::getCurrentLocaleDirection());
+        \View::share('current_lang',     \LaravelLocalization::getCurrentLocale()); // \LaravelLocalization::getCurrentLocale());
+        \View::share('supported_langs',  \LaravelLocalization::getLocalesOrder());
+        \View::share('lang_name',        \LaravelLocalization::getCurrentLocaleName());
+        \View::share('lang_direction',   session()->get('lang_direction')); // \LaravelLocalization::getCurrentLocaleDirection());
 
         view()->composer('*',function($view) {
             if(session()->get('_user') != null && session()->get('_token') != null){
@@ -97,6 +97,14 @@ class AppServiceProvider extends ServiceProvider
                     'header'     => __('base.rout_start.money_history.label'),
                     'label'      => __('base.rout_start.money_history.label'),
                     'link'       => route('money_history'),
+                    'icon_class' => 'fas fa-wallet',
+                    'ordering'   => 6,
+                ]);
+
+                app()->make('app\Classes\Core')->asideMenu([
+                    'header'     => __('base.rout_start.units_movement.label'),
+                    'label'      => __('base.rout_start.units_movement.label'),
+                    'link'       => route('unit_movement'),
                     'icon_class' => 'fas fa-wallet',
                     'ordering'   => 6,
                 ]);
